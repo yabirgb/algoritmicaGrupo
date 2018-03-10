@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "" > data/salida_$1.dat
+i=$3
+
+while [ $i -lt $2 ]
+do
+	echo $i
+	./bin/$1 $i >> data/salida_$1.dat
+	i=$[$i+$4]
+done
