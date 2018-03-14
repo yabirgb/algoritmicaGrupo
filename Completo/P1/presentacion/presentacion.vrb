@@ -1,0 +1,44 @@
+\frametitle{Algoritmo de Floyd}
+    \begin{lstlisting}
+      void Floyd(int **M, int dim) {
+	for (int k = 0; k < dim; k++)
+        for (int i = 0; i < dim;i++)
+        for (int j = 0; j < dim;j++){
+          int sum = M[i][k] + M[k][j];
+          M[i][j] = (M[i][j] > sum) ? sum : M[i][j];
+        }
+      }
+    \end{lstlisting}
+
+    $$\sum_{k=0}^{n} \sum_{i=0}^{n} \sum_{j=0}^{n} a = a n^3 \in O(n^3)$$
+  \end{frame}
+
+  \begin{frame}\frametitle{Algoritmo floyd}
+  \begin{figure}[H]
+    \centering
+        \includegraphics[clip,width=1\columnwidth]{../plots/floyd}%
+    \end{figure}
+  \end{frame}
+
+   \begin{frame}[fragile]\frametitle{Algoritmo Hanoi}
+    \begin{lstlisting}
+      void hanoi (int M, int i, int j) {
+	if (M > 0) {
+          hanoi(M-1, i, 6-i-j);
+          hanoi (M-1, 6-i-j, j);
+	}
+      }
+    \end{lstlisting}
+
+    $$Hanoi(n) = 2 \cdot Hanoi(n-1)$$
+    $$X_{n+1} = 2 \cdot X_n$$
+    $$X_n = C \cdot 2^n \in O(2^n)$$
+  \end{frame}
+
+  \begin{frame}\frametitle{Algoritmo floyd}
+  \begin{figure}[H]
+    \centering
+        \includegraphics[clip,width=1\columnwidth]{../plots/hanoi}%
+    \end{figure}
+  \end{frame}
+\end{document}
