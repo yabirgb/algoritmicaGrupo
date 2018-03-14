@@ -511,12 +511,48 @@ void Floyd(int **M, int dim) {
 
 $$\sum_{k=0}^{n} \sum_{i=0}^{n} \sum_{j=0}^{n} a = a n^3 \in O(n^3)$$
 
-Representación de los datos obtenidos junto con su ajuste correspondiente:
+Tablas de datos y comparativa:
+
+\begin{table}[h]
+	\centering
+	\caption{Floyd}
+	\begin{tabular}{ | c | c  | c | c | c | }
+		\hline
+		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\ 
+		\hline
+		25	&	0.000106	&	0.000104	&	0.000132	&	0.000255	\\
+		60	&	0.00132	&	0.001315	&	0.001638	&	0.00309	\\
+		95	&	0.00529	&	0.005052	&	0.006333	&	0.009714	\\
+		130	&	0.013483	&	0.012898	&	0.016173	&	0.013252	\\
+		165	&	0.026949	&	0.025858	&	0.030908	&	0.023836	\\
+		200	&	0.047713	&	0.046035	&	0.053756	&	0.040295	\\
+		235	&	0.076571	&	0.074148	&	0.082185	&	0.064654	\\
+		270	&	0.115361	&	0.111999	&	0.12578	&	0.097323	\\
+		305	&	0.16553	&	0.161234	&	0.179741	&	0.141312	\\
+		340	&	0.229901	&	0.223649	&	0.246866	&	0.194466	\\
+		375	&	0.306628	&	0.303014	&	0.328515	&	0.258094	\\
+		410	&	0.399503	&	0.38989	&	0.428172	&	0.337823	\\
+		445	&	0.511245	&	0.497475	&	0.542359	&	0.430337	\\
+		480	&	0.646562	&	0.624318	&	0.678628	&	0.5407	\\
+		515	&	0.792583	&	0.76971	&	0.84846	&	0.667034	\\
+		550	&	0.964084	&	0.936758	&	1.04872	&	0.812562	\\
+		585	&	1.167	&	1.12769	&	1.23856	&	0.976406	\\
+		620	&	1.39008	&	1.3435	&	1.45209	&	1.163	\\
+		655	&	1.63592	&	1.57988	&	1.70619	&	1.36855	\\
+		690	&	1.90257	&	1.84778	&	1.9882	&	1.60272	\\
+		725	&	2.21537	&	2.13758	&	2.32022	&	1.85235	\\
+		760	&	2.53784	&	2.46761	&	2.67501	&	2.13302	\\
+		795	&	2.92257	&	2.84002	&	3.07144	&	2.44512	\\
+		830	&	3.30624	&	3.23833	&	3.4851	&	2.78404	\\
+		865	&	3.78033	&	3.65871	&	3.96119	&	3.15061	\\
+		\hline
+	\end{tabular}
+\end{table}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{../plots/floyd}
-	\caption{Eficiencia híbridia del algoritmo $floyd$.}
+	\caption{Comparativa de la eficiencia híbridia del algoritmo $floyd$.}
 \end{figure}
 
 \subsection{Algoritmo de orden exponencial}
@@ -544,12 +580,48 @@ Esto es una progresión geométrica cuya solución viene expresada por:
 
 $$X_n = C \cdot 2^n \in O(2^n)$$
 
-Donde $C$ es una constante que depende del problema. Una vez finalizado el estudio teórico representamos los datos obtenidos junto con su ajuste correspondiente:
+Donde $C$ es una constante que depende del problema. Una vez finalizado el estudio teórico representamos los datos obtenidos junto con la comparativa pertinente:
+
+\begin{table}[h]
+	\centering
+	\caption{Hanoi}
+	\begin{tabular}{ | c | c  | c | c | c | }
+		\hline
+		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\ 
+		\hline
+		5	&	1e-06	&	2e-06	&	3e-06	&	4e-06	\\
+		6	&	2e-06	&	1e-06	&	2e-06	&	6e-06	\\
+		7	&	3e-06	&	2e-06	&	3e-06	&	2e-06	\\
+		8	&	3e-06	&	3e-06	&	5e-06	&	2e-06	\\
+		9	&	4e-06	&	4e-06	&	6e-06	&	4e-06	\\
+		10	&	7e-06	&	7e-06	&	1.1e-05	&	8e-06	\\
+		11	&	1.5e-05	&	1.4e-05	&	1.9e-05	&	1.3e-05	\\
+		12	&	2.9e-05	&	2.7e-05	&	4.7e-05	&	2.5e-05	\\
+		13	&	5.4e-05	&	5.3e-05	&	9.2e-05	&	5e-05	\\
+		14	&	0.000107	&	0.000103	&	0.000152	&	9.7e-05	\\
+		15	&	0.000212	&	0.000205	&	0.000257	&	0.000193	\\
+		16	&	0.000422	&	0.000409	&	0.000473	&	0.000386	\\
+		17	&	0.000844	&	0.000817	&	0.000923	&	0.000769	\\
+		18	&	0.001684	&	0.001631	&	0.001819	&	0.001537	\\
+		19	&	0.003403	&	0.00327	&	0.003653	&	0.003089	\\
+		20	&	0.006931	&	0.006554	&	0.007464	&	0.005846	\\
+		21	&	0.013697	&	0.01307	&	0.014864	&	0.015505	\\
+		22	&	0.027919	&	0.027262	&	0.029788	&	0.023595	\\
+		23	&	0.054677	&	0.052523	&	0.059037	&	0.046132	\\
+		24	&	0.108517	&	0.104901	&	0.116334	&	0.091187	\\
+		25	&	0.216675	&	0.209356	&	0.228908	&	0.181641	\\
+		26	&	0.434431	&	0.417555	&	0.456383	&	0.362962	\\
+		27	&	0.867205	&	0.83499	&	0.908195	&	0.725599	\\
+		28	&	1.73855	&	1.6775	&	1.80609	&	1.45384	\\
+		29	&	3.46495	&	3.35842	&	3.60959	&	2.9018	\\
+		\hline
+	\end{tabular}
+\end{table}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{../plots/burbuja}
-	\caption{Eficiencia híbridia del algoritmo $hanoi$.}
+	\includegraphics[width=0.8\textwidth]{../plots/hanoi}
+	\caption{Comparativa de la eficiencia híbridia del algoritmo $hanoi$.}
 \end{figure}
 
 \section{Comparativa final}
