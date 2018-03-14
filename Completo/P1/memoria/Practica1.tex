@@ -64,7 +64,7 @@
 
 \section{Introducción}
 
-En este práctica realizaremos un estudio de la eficiencia tanto empírica como híbrida de los algoritmos propuestos en el guión de prácticas. Siguiendo dicho guión, realizaremos distintas gráficas mostrando el trabajo realizado y expondremos diversos resultados para los distintos miembros del equipo.
+En esta práctica realizaremos un estudio de la eficiencia tanto empírica como híbrida de los algoritmos propuestos en el guión de prácticas. Siguiendo dicho guión, realizaremos distintas gráficas mostrando el trabajo realizado y expondremos diversos resultados para los distintos miembros del equipo.
 
 Adjunto a esta memoria se entregarán los datos tomados así como las gráficas generadas a partir de los mismos.
 
@@ -85,13 +85,27 @@ Los algoritmos propuestos para el estudio de la eficiencia son los siguientes:
 		quicksort & $O(n log n)$ \\
 		heapsort  & $O(n log n)$ \\
 		floyd     & $O(n^3)$     \\
-		hanoi     & $O(2^n)$      
+		hanoi     & $O(2^n)$
 	\end{tabular}
 \end{table}
 
+Para el estudio de estos, cada miembro del grupo ha utilizado un equipo distinto.
+
+En el caso de Yabir se ha utilizado un Intel Pentium G3258 con 2 núcleos a 3.2GHz,
+8GB de RAM y el sistema operativo Linux Mint 18.3 Sylvia x86 64.
+
+Javier por su parte, ha utilizado un i5-6200U con 4 núcleos a 2.3GHz, 8GB de RAM
+y ubuntu 16 LTS de 64 bits como sistema operativo.
+
+Por otro lado Jose Antonio ha utilizado un i7-5500 con 4 núcleos a 2.4GHz, 8GB de RAM
+y ubuntu 16 LTS de 64 bits.
+
+Y por último Norberto ha utilizado un i5-4590 con 4 núcleos a 3.3GHz, 8GB de RAM y
+ubuntu 16 LTS de 64 bits.
+
 \subsection{Algoritmos de orden cuadrático}
 
-En primer lugar realizamos un estudio teórico de la eficiencia. Como se vió en el guión de prácticas, la eficiencia teórica de el algoritmo \emph{burbuja} es de:
+En primer lugar realizamos un estudio teórico de la eficiencia. Como se vió en el guión de prácticas, la eficiencia teórica del algoritmo \emph{burbuja} es de:
 
 $$\frac{a}{2} n^2 - \frac{3a}{2} n + a \in O(n^2)$$
 
@@ -172,14 +186,14 @@ Manteniendo la notación utilizado y utilizando un razonamiento similiar al ante
 
 $$\sum_{i=0}^{n} \sum_{j=i}^{n} a = ... = a \cdot (\frac{n^2}{2} + 2n) \in O(n^2)$$
 
-Realizado el estudio teórico sobre los tres algoritmos, ejecutamos y utilizamos \emph{gnuplot} para obtener un ajuste de los datos obtenidos. Representamos ahora los datos obtenidos junto a una comparativa gráfica de los tiempos generados para los distintos miembros del grupo. 
+Realizado el estudio teórico sobre los tres algoritmos, ejecutamos y utilizamos \emph{gnuplot} para obtener un ajuste de los datos obtenidos. Representamos ahora los datos obtenidos junto a una comparativa gráfica de los tiempos generados para los distintos miembros del grupo.
 
 \begin{table}[h]
 	\centering
 	\caption{Burbuja}
 	\begin{tabular}{ | c | c  | c | c | c | }
 		\hline
-		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\ 
+		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\
 		\hline
 		1000	&	0.002102	&	0.004246	&	0.004012	&	0.001311	\\
 		2000	&	0.008624	&	0.008201	&	0.015366	&	0.007047	\\
@@ -221,7 +235,7 @@ Realizado el estudio teórico sobre los tres algoritmos, ejecutamos y utilizamos
 	\caption{Inserción}
 	\begin{tabular}{ | c | c  | c | c | c | }
 		\hline
-		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\ 
+		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\
 		\hline
 		1000	&	0.0012	&	0.00112	&	0.000545	&	0.001092	\\
 		2000	&	0.004572	&	0.004292	&	0.003054	&	0.003372	\\
@@ -263,7 +277,7 @@ Realizado el estudio teórico sobre los tres algoritmos, ejecutamos y utilizamos
 	\caption{Selección}
 	\begin{tabular}{ | c | c  | c | c | c | }
 		\hline
-		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\ 
+		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\
 		\hline
 		1000	&	0.00143505	&	0.00135595	&	0.00046005	&	0.00035719	\\
 		2000	&	0.00561393	&	0.00524505	&	0.00340335	&	0.00261264	\\
@@ -379,14 +393,14 @@ $$= (n/2) \cdot R(n/2 + 1) + (n-1) \cdot R(n - 1) + c_3(n-1)$$
 
 Como el orden de eficiencia de \textbf{Reajustar} es de $O(log(n))$, podemos concluir que el algoritmo tiene una eficiencia de $O(nlog(n))$
 
-Realizado el estudio teórico sobre los tres algoritmos, ejecutamos y utilizamos \emph{gnuplot} para obtener un ajuste de los datos obtenidos. Adjuntamos a continuación las tablas con los datos obtenidos y una comparativa gráfica entre los distintos miembros del grupo. 
+Realizado el estudio teórico sobre los tres algoritmos, ejecutamos y utilizamos \emph{gnuplot} para obtener un ajuste de los datos obtenidos. Adjuntamos a continuación las tablas con los datos obtenidos y una comparativa gráfica entre los distintos miembros del grupo.
 
 \begin{table}[h]
 	\centering
 	\caption{Mergesort}
 	\begin{tabular}{ | c | c  | c | c | c | }
 		\hline
-		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\ 
+		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\
 		\hline
 		1000	&	0.000124104	&	0.000117755	&	6.0321e-05	&	5.8705e-05	\\
 		2000	&	0.000275885	&	0.000265505	&	0.000264315	&	0.00020683	\\
@@ -428,7 +442,7 @@ Realizado el estudio teórico sobre los tres algoritmos, ejecutamos y utilizamos
 	\caption{Quicksort}
 	\begin{tabular}{ | c | c  | c | c | c | }
 		\hline
-		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\ 
+		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\
 		\hline
 		1000	&	9.5e-05	&	8.7e-05	&	5.8e-05	&	3.5e-05	\\
 		2000	&	0.000235	&	0.000187	&	0.000254	&	0.00012	\\
@@ -470,7 +484,7 @@ Realizado el estudio teórico sobre los tres algoritmos, ejecutamos y utilizamos
 	\caption{Heapsort}
 	\begin{tabular}{ | c | c  | c | c | c | }
 		\hline
-		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\ 
+		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\
 		\hline
 		1000	&	0.000132	&	0.000124	&	8.4e-05	&	7.9e-05	\\
 		2000	&	0.000255	&	0.000268	&	0.000271	&	0.000406	\\
@@ -516,10 +530,10 @@ void Floyd(int **M, int dim) {
 	for (int k = 0; k < dim; k++)
 		for (int i = 0; i < dim;i++)
 			for (int j = 0; j < dim;j++){
-				int sum = M[i][k] + M[k][j];    	
+				int sum = M[i][k] + M[k][j];
 				M[i][j] = (M[i][j] > sum) ? sum : M[i][j];
 			}
-}	     	
+}
 \end{lstlisting}
 
 $$\sum_{k=0}^{n} \sum_{i=0}^{n} \sum_{j=0}^{n} a = a n^3 \in O(n^3)$$
@@ -531,7 +545,7 @@ Tablas de datos y comparativa:
 	\caption{Floyd}
 	\begin{tabular}{ | c | c  | c | c | c | }
 		\hline
-		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\ 
+		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\
 		\hline
 		25	&	0.000106	&	0.000104	&	0.000132	&	0.000255	\\
 		60	&	0.00132	&	0.001315	&	0.001638	&	0.00309	\\
@@ -578,7 +592,7 @@ void hanoi (int M, int i, int j) {
 		hanoi(M-1, i, 6-i-j);
 		hanoi (M-1, 6-i-j, j);
 	}
-}	     	
+}
 \end{lstlisting}
 
 Como este algoritmo se llama a si mismo dos veces podemos expresar su eficiencia vara una entrada $n$ como:
@@ -600,7 +614,7 @@ Donde $C$ es una constante que depende del problema. Una vez finalizado el estud
 	\caption{Hanoi}
 	\begin{tabular}{ | c | c  | c | c | c | }
 		\hline
-		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\ 
+		Tama\~no & Jose Antonio & Yabir & Javier & Norberto\\
 		\hline
 		5	&	1e-06	&	2e-06	&	3e-06	&	4e-06	\\
 		6	&	2e-06	&	1e-06	&	2e-06	&	6e-06	\\
@@ -637,5 +651,11 @@ Donde $C$ es una constante que depende del problema. Una vez finalizado el estud
 	\caption{Comparativa de la eficiencia empírica del algoritmo $hanoi$.}
 \end{figure}
 
+\section{Conclusión}
+
+Como hemos podido ir observando en las gráficas comparativas de los distintos algoritmos,
+no importa el equipo que estemos utilizando para el estudio de estos, es decir,
+independientemente de la velocidad de cálculo que tenga un ordenador u otro
+el orden de los algoritmos no varía.
 
 \end{document}
