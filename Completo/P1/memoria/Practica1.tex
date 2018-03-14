@@ -17,7 +17,7 @@
 
 % Meta
 \title{Práctica 1: Estudio de la eficiencia}
-\author{\textbf{INCLUIMOS LOS AUTORES AQUI O COMO}}
+\author{José Antonio Álvarez Ocete - Norberto Fernández de la Higuera \\ Javier Gálvez Obispo - Yábir García Benchakhtir }
 \date{\today}
 
 % Custom
@@ -89,19 +89,19 @@ Los algoritmos propuestos para el estudio de la eficiencia son los siguientes:
 	\end{tabular}
 \end{table}
 
-Para el estudio de estos, cada miembro del grupo ha utilizado un equipo distinto.
+Para el estudio de estos, cada miembro del grupo ha utilizado un equipo distinto:
 
-En el caso de Yabir se ha utilizado un Intel Pentium G3258 con 2 núcleos a 3.2GHz,
-8GB de RAM y el sistema operativo Linux Mint 18.3 Sylvia x86 64.
-
-Javier por su parte, ha utilizado un i5-6200U con 4 núcleos a 2.3GHz, 8GB de RAM
+\begin{itemize}
+\item En el caso de Yabir se ha utilizado un Intel Pentium G3258 con 2 núcleos a 3.2GHz,
+  8GB de RAM y el sistema operativo Linux Mint 18.3 Sylvia x86 64.
+\item Javier por su parte, ha utilizado un i5-6200U con 4 núcleos a 2.3GHz, 8GB de RAM
 y ubuntu 16 LTS de 64 bits como sistema operativo.
-
-Por otro lado Jose Antonio ha utilizado un i7-5500 con 4 núcleos a 2.4GHz, 8GB de RAM
-y ubuntu 16 LTS de 64 bits.
-
-Y por último Norberto ha utilizado un i5-4590 con 4 núcleos a 3.3GHz, 8GB de RAM y
+\item Por otro lado Jose Antonio ha utilizado un i7-5500 con 4 núcleos a 2.4GHz, 8GB de RAM
+  y ubuntu 16 LTS de 64 bits.
+\item Y por último Norberto ha utilizado un i5-4590 con 4 núcleos a 3.3GHz, 8GB de RAM y
 ubuntu 16 LTS de 64 bits.
+  
+\end{itemize}
 
 \subsection{Algoritmos de orden cuadrático}
 
@@ -112,8 +112,6 @@ $$\frac{a}{2} n^2 - \frac{3a}{2} n + a \in O(n^2)$$
 Donde $a$ es una constante que acota el interior del bucle.
 
 Repetimos un proceso análogo al realizado para el algóritmo de burbuja estudiando \textbf{selección} para el siguiente código:
-
-\newpage
 
 \begin{lstlisting}
 static void seleccion_lims(int T[], int inicial, int final) {
@@ -151,7 +149,7 @@ de la primera sumatoria extraemos $b(n-1)$ y ahora procedemos a analizar la segu
 
 \begin{equation}
   \begin{aligned}
-    a\sum_{i=0}^{n-1}(n-i) &= a_1\left[\sum_{i=0}^{n}n - \sum_{j=i}^{n}i\right]  \\
+    a\sum_{i=0}^{n-1}(n-i) &= a_1\left[\sum_{i=0}^{n}n - \sum_{i=0}^{n}i\right]  \\
     &= an^2 - a \frac{(n+1)n}{2} \\
     &= an^2- \frac{an^2}{2} - \frac{an}{2}
   \end{aligned}
