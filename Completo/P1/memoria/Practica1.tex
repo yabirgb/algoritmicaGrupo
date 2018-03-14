@@ -121,10 +121,32 @@ static void seleccion_lims(int T[], int inicial, int final) {
 }
 \end{lstlisting}
 
-Acotando de nuevo el interior del bucle por una constante $a$, denotando $n$ por el tamaño del vector y a partir de los dos bucles obtenemos fácilemente:
+Acotamos el contenido del bucle for anindado por la constante $a_1$ y
+las operaciones del bucle exterior por la constante $a_2$.  De esta
+manera el análisis de la eficiencia sería el soguiente.
 
-$$\sum_{i=0}^{n-1} \sum_{j=i}^{n} a = a \cdot \sum_{i=0}^{n-1} n - i + 1 = a \cdot ( \sum_{i=0}^{n-1} (n + 1) - \sum_{i=0}^{n-1}(i) ) =  $$
-$$ = a \cdot ((n+1)(n-1) - \frac{(n-1)(n)}{2}) = a \cdot (\frac{n^2}{2} - \frac{n}{2} - 1) \in O(n^2)$$
+\begin{equation}
+  \begin{aligned}
+    \sum_{i=0}^{n-1}\left[a_2 + \sum_{j=i}^n{a_1}\right] &= \sum_{i=0}^{n-1}\left[a_2+a_1\sum_{j=i}^{n}1\right]  \\
+    &= \sum_{i=0}^{n-1}a_2 + a_1 \sum_{i=0}^{n}\sum_{j=i}^{n-1}1 \\
+    &= a_2\sum_{i=0}^{n-1}1 + a_1 \sum_{i=0}^{n}(n-i)
+  \end{aligned}
+\end{equation}
+
+de la primera sumatoria extraemos $b(n-1)$ y ahora procedemos a analizar la segunda:
+
+\begin{equation}
+  \begin{aligned}
+    a\sum_{i=0}^{n-1}(n-i) &= a_1\left[\sum_{i=0}^{n}n - \sum_{j=i}^{n}i\right]  \\
+    &= an^2 - a \frac{(n+1)n}{2} \\
+    &= an^2- \frac{an^2}{2} - \frac{an}{2}
+  \end{aligned}
+\end{equation}
+
+Sumando ambas expresiones obtenemos:
+
+$$\frac{an^2}{2} - \frac{an}{2}+ b(n-1) = \frac{a}{2}n^2+\frac{b-a}{2}n - b$$
+
 
 Para el caso de \textbf{inserción} tenemos el siguiente algoritmo:
 
@@ -190,7 +212,7 @@ Realizado el estudio teórico sobre los tres algoritmos, ejecutamos y utilizamos
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{../plots/burbuja}
-	\caption{Comparativa de la eficiencia híbridia del algoritmo $burbuja$.}
+	\caption{Comparativa de la eficiencia empírica del algoritmo $burbuja$.}
 \end{figure}
 
 \begin{table}[h]
@@ -232,7 +254,7 @@ Realizado el estudio teórico sobre los tres algoritmos, ejecutamos y utilizamos
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{../plots/insercion}
-	\caption{Comparativa de la eficiencia híbridia del algoritmo $insercion$.}
+	\caption{Comparativa de la eficiencia empírica del algoritmo $insercion$.}
 \end{figure}
 
 \begin{table}[h]
@@ -279,7 +301,9 @@ Realizado el estudio teórico sobre los tres algoritmos, ejecutamos y utilizamos
 
 \subsection{Algoritmos de orden n - logarítimico}
 
-De nuevo comencemos realizando un estudio teórico. Como se vió en el guión de prácticas, la eficiencia teórica de el algoritmo \emph{mergesort} es de:
+De nuevo comencemos realizando un estudio teórico. Como se vió en el
+guión de prácticas, la eficiencia teórica de el algoritmo
+\emph{mergesort} es de:
 
 $$c_1n + c_2nlog_2(n) \in O(nlog_2(n))$$
 
@@ -316,7 +340,11 @@ static void reajustar(int T[], int num_elem, int k) {
 }
 \end{lstlisting}
 
-Estudiaremos en primer lugar la eficiencia de la función $Reajustar(k)$ que denotaremos por $R(k)$. Si nos fijamos en la primera línea del bucle, en cada iteración multiplicamos $k \cdot 2$. Por lo tanto, si acotamos el interior del bucle por una constance $c_1$ y $ t = n-k$:
+Estudiaremos en primer lugar la eficiencia de la función
+$Reajustar(k)$ que denotaremos por $R(k)$. Si nos fijamos en la
+primera línea del bucle, en cada iteración multiplicamos $k \cdot
+2$. Por lo tanto, si acotamos el interior del bucle por una constance
+$c_1$ y $ t = n-k$:
 
 $$R(n-k) = R(\frac{n-k}{2}) + c_1 \leftrightarrow R(t) = R(\frac{t}{2}) + c_1$$
 
@@ -391,7 +419,7 @@ Realizado el estudio teórico sobre los tres algoritmos, ejecutamos y utilizamos
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{../plots/mergesort}
-	\caption{Comparativa de la eficiencia híbridia del algoritmo $mergesort$.}
+	\caption{Comparativa de la eficiencia empírica del algoritmo $mergesort$.}
 \end{figure}
 
 \begin{table}[h]
@@ -433,7 +461,7 @@ Realizado el estudio teórico sobre los tres algoritmos, ejecutamos y utilizamos
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{../plots/quicksort}
-	\caption{Comparativa de la eficiencia híbridia del algoritmo $quicksort$.}
+	\caption{Comparativa de la eficiencia empírica del algoritmo $quicksort$.}
 \end{figure}
 
 \begin{table}[h]
@@ -475,7 +503,7 @@ Realizado el estudio teórico sobre los tres algoritmos, ejecutamos y utilizamos
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{../plots/heapsort}
-	\caption{Comparativa de la eficiencia híbridia del algoritmo $heapsort$.}
+	\caption{Comparativa de la eficiencia empírica del algoritmo $heapsort$.}
 \end{figure}
 
 \subsection{Algoritmo de orden cúbico}
@@ -536,7 +564,7 @@ Tablas de datos y comparativa:
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{../plots/floyd}
-	\caption{Comparativa de la eficiencia híbridia del algoritmo $floyd$.}
+	\caption{Comparativa de la eficiencia empírica del algoritmo $floyd$.}
 \end{figure}
 
 \subsection{Algoritmo de orden exponencial}
@@ -605,7 +633,7 @@ Donde $C$ es una constante que depende del problema. Una vez finalizado el estud
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{../plots/hanoi}
-	\caption{Comparativa de la eficiencia híbridia del algoritmo $hanoi$.}
+	\caption{Comparativa de la eficiencia empírica del algoritmo $hanoi$.}
 \end{figure}
 
 
