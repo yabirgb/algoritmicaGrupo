@@ -41,6 +41,7 @@ int compute_addition(int p1, int p2, int p3, vector<vector<double>>*matrix){
 vector<int> add_closet_to_path(vector<int> path, int N, vector<vector<double>>* matrix){
   double best_dist = numeric_limits<double>::max();
   double dist;
+  int best_pos = 0;
   vector<int> new_path(path);
   //For every city
   for(int city=0; city < N; city++){
@@ -52,9 +53,10 @@ vector<int> add_closet_to_path(vector<int> path, int N, vector<vector<double>>* 
 	//Test if is the best match
 	if (dist < best_dist){
 	  best_dist = dist;
-	  new_path.insert(new_path.begin()+j, city);
+	  best_pos = j;
 	}
       }
+      new_path.insert(new_path.begin()+best_pos, city);
     }
   }
 
