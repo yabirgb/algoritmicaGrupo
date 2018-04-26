@@ -1,8 +1,13 @@
 all:
 	g++ -o cheap cheapInserction.cpp
-	./cheap datosTSP/ulysses22.tsp datosTSP/ulysses22.opt.tour
+	./cheap datosTSP/pr2392.tsp datosTSP/pr2392.opt.tour
 	./plot.sh
 
 run:
-	./cheap datosTSP/ulysses22.tsp datosTSP/ulysses22.opt.tour
+	./cheap datosTSP/pr2392.tsp datosTSP/pr2392.opt.tour
+	./plot.sh
+
+
+ulysses:
+	./cheap datosTSP/ulysses16.tsp datosTSP/ulysses16.opt.tour
 	./plot.sh

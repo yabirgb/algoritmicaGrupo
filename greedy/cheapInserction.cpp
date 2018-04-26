@@ -65,7 +65,7 @@ double compute_addition(int p1, int p2, int p3, vector<vector<double>>&matrix){
 vector<int> add_closet_to_path(vector<int> path, int N, vector<vector<double>>& matrix){
   double best_dist = numeric_limits<double>::max();
   double dist;
-  int best_pos;
+  int best_pos=0;
   vector<int> new_path(path);
   
   //For every city
@@ -73,10 +73,10 @@ vector<int> add_closet_to_path(vector<int> path, int N, vector<vector<double>>& 
     //Check if it's already in the path
     if(find(new_path.begin(), new_path.end(), city) == new_path.end()){
       //If not in the path for every city
-      for(int j=0; j < new_path.size()-1; j++){
-	dist = compute_addition(new_path[j], new_path[j+1], city, matrix);
+      for(int j=0; j < new_path.size()-1; ++j){
+	dist = compute_addition(new_path[j+1], new_path[j], city, matrix);
 	//Test if is the best match
-	if (dist < best_dist){
+	if (dist <= best_dist){
 	  best_dist = dist;
 	  best_pos = j;
 	}
@@ -93,7 +93,7 @@ double compute_length(vector<int> path, vector<vector<double>> &cities){
   for(int i = 0; i < path.size()-1; i++){
     result += cities[path[i]][path[i+1]];
   }
-
+  result += cities[0][path[path.size()]];
   return result;
 }
 
@@ -120,6 +120,9 @@ int main(int argc, char **argv){
   data >> trash;
   data >> N; //First line is always the cardinal of cities
 
+  int mini, minj;
+  double dist, best=numeric_limits<int>::max();
+
   //Create a vector of 3-uplas
 
   vector<pair<double, double>> coordinates;
@@ -135,22 +138,31 @@ int main(int argc, char **argv){
 
   for(int i = 0; i < N; i++){
     for(int j=0; j < i; j++){
-      cities[i][j] = distance(coordinates[i], coordinates[j]);
+      dist = distance(coordinates[i], coordinates[j]);
+      cities[i][j] = dist;
       cities[j][i] = cities[i][j];
+
+      if(dist < best){
+	mini = i;
+	minj = j;
+	best = dist;
+      }
     }
+
+    best=numeric_limits<int>::max();
   }
   cout << N << endl;
   //printMatrix(cities);
 
   //Start with a random node
-  srand (time(NULL));
-  initial = rand()%(N-1);
-  result.push_back(initial);
+  //srand (time(NULL));
+  //initial = rand()%(N);
+  result.push_back(mini);
 
   //Search for the nearest node and add it to the circuit
-  int latest = result[result.size()-1];
-  next_node = closest_element(latest, cities[latest]);
-  result.push_back(next_node);
+  //int latest = result[result.size()-1];
+  //next_node = closest_element(latest, cities[latest]);
+  result.push_back(minj);
 
   result = add_closet_to_path(result,N, cities);
 
