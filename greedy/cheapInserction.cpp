@@ -93,7 +93,7 @@ double compute_length(vector<int> path, vector<vector<double>> &cities){
   for(int i = 0; i < path.size()-1; i++){
     result += cities[path[i]][path[i+1]];
   }
-  result += cities[0][path[path.size()]];
+  result += cities[0][path[path.size()-1]];
   return result;
 }
 
@@ -163,12 +163,9 @@ int main(int argc, char **argv){
   //int latest = result[result.size()-1];
   //next_node = closest_element(latest, cities[latest]);
   result.push_back(minj);
-
   result = add_closet_to_path(result,N, cities);
-
-  printVector(result);
+  //printVector(result);
   cout << "Total distance: " << compute_length(result, cities) << endl;
-
   ofstream out(output);
   int city;
   for(int i =0; i < result.size(); i++){
