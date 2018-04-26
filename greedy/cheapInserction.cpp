@@ -34,14 +34,14 @@ int closest_element(int pos, vector<double> v){
   return shortest;
 }
 
-int compute_addition(int p1, int p2, int p3, vector<vector<double>>*matrix){
-  return (*matrix)[p1][p3] + (*matrix)[p2][p3] - (*matrix)[p1][p2];
+double compute_addition(int p1, int p2, int p3, vector<vector<double>>&matrix){
+  return matrix[p1][p3] + matrix[p2][p3] - matrix[p1][p2];
 }
 
-vector<int> add_closet_to_path(vector<int> path, int N, vector<vector<double>>* matrix){
+vector<int> add_closet_to_path(vector<int> path, int N, vector<vector<double>>& matrix){
   double best_dist = numeric_limits<double>::max();
   double dist;
-  int best_pos = 0;
+  int best_pos = 1;
   vector<int> new_path(path);
   //For every city
   for(int city=0; city < N; city++){
@@ -61,15 +61,6 @@ vector<int> add_closet_to_path(vector<int> path, int N, vector<vector<double>>* 
   }
 
   return new_path;
-}
-
-double compute_length(vector<int> path, vector<vector<double>> cities){
-  double result = 0;
-  for(int i = 0; i < path.size(); i++){
-    result += cities[path[i]][path[(i+1)%path.size()]];
-  }
-
-  return result;
 }
 
 void printMatrix(vector<vector<double>> matrix){
@@ -94,6 +85,15 @@ void printVector(vector<T> v){
   cout << "]" << endl;
 }
 
+double compute_length(vector<int> path, vector<vector<double>> &cities){
+  double result = 0;
+  for(int i = 0; i < path.size(); i++){
+    result += cities[path[i]][path[(i+1)%path.size()]];
+  }
+
+  return result;
+}
+
 int main(int argc, char **argv){
 
   int N; //Total number of cities
@@ -101,12 +101,12 @@ int main(int argc, char **argv){
   int n; //Positional argument in input data
   int next_node;
   string filename; //File that contains the input data;
-  string output = "salida.tps";
+  string output = "salida.tour";
   string trash;
   vector<int> result; //Vector of integers representing the order of cities
   int initial;
 
-  if(argc != 2){
+  if(argc != 3){
     cerr << "Error in the number of arguments" << endl;
     return 1;
   }
@@ -149,10 +149,7 @@ int main(int argc, char **argv){
   next_node = closest_element(latest, cities[latest]);
   result.push_back(next_node);
 
-  while(result.size() < N){
-    cout << "Size of vector: " << result.size() << endl;;
-    result = add_closet_to_path(result,N, &cities);
-  }
+  result = add_closet_to_path(result,N, cities);
 
   printVector(result);
   cout << "Total distance: " << compute_length(result, cities) << endl;
@@ -163,6 +160,27 @@ int main(int argc, char **argv){
     city = result[i];
     out << city << " " << coordinates[city].first << " " << coordinates[city].second << endl;
   }
+
+
+  //Obtener el grafico de la solución en el  dataset propuesto
+
+  ifstream archivo(argv[2]);
+  vector<int> ciudades;
+  int k;
+  archivo >> trash;
+  archivo >> k;
+  for(int i =0; i < N; i++){
+    archivo >> k;
+    ciudades.push_back(k-1);
+  }
+
+  ofstream salida("salida_suya.tour");
+  for(int i =0; i < ciudades.size(); i++){
+    city = ciudades[i];
+    salida << city << " " << coordinates[city].first << " " << coordinates[city].second << endl;
+  }
+
+  cout << "La longitud de la solución ofrecida es: " << compute_length(ciudades, cities) << endl;
 
   return 0;
 }
