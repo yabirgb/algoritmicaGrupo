@@ -70,19 +70,16 @@ vector<int> add_closet_to_path(vector<int> path, int N, vector<vector<double>>& 
   
   //For every city
   for(int city=0; city < N; city++){
-    //Check if it's already in the path
-    if(find(new_path.begin(), new_path.end(), city) == new_path.end()){
-      //If not in the path for every city
-      for(int j=0; j < new_path.size()-1; ++j){
-	dist = compute_addition(new_path[j+1], new_path[j], city, matrix);
-	//Test if is the best match
-	if (dist <= best_dist){
-	  best_dist = dist;
-	  best_pos = j;
-	}
+    //If not in the path for every city
+    for(int j=0; j < new_path.size()-1 && path[0] != city && path[1] != city; ++j){
+      dist = compute_addition(new_path[j], new_path[j+1], city, matrix);
+      //Test if is the best match
+      if (dist < best_dist){
+	best_dist = dist;
+	best_pos = j;
       }
-      new_path.insert(new_path.begin()+best_pos, city);
     }
+    new_path.insert(new_path.begin()+best_pos, city);
   }
 
   return new_path;
