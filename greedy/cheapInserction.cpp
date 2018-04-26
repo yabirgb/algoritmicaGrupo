@@ -11,6 +11,30 @@
 
 using namespace std;
 
+
+void printMatrix(vector<vector<double>> matrix){
+  for(int i=0; i < matrix.size(); i++){
+    for(int j=0; j < matrix[i].size(); j++){
+      printf("%.4f ", matrix[i][j]);
+    }
+    cout << endl;
+  }
+}
+
+template <typename T>
+void printVector(vector<T> v){
+
+  cout << "vector = [";
+  for(int i =0; i < v.size()-1; i++){
+    cout << v[i] << ",";
+  }
+
+  cout << v[v.size()-1];
+
+  cout << "]" << endl;
+}
+
+
 double distance(pair<double, double> c1, pair<double, double> c2){
   return hypot(c2.first - c1.first, c2.second - c1.second);
 }
@@ -35,14 +59,15 @@ int closest_element(int pos, vector<double> v){
 }
 
 double compute_addition(int p1, int p2, int p3, vector<vector<double>>&matrix){
-  return matrix[p1][p3] + matrix[p2][p3] - matrix[p1][p2];
+  return matrix[p3][p1] + matrix[p2][p3] - matrix[p1][p2];
 }
 
 vector<int> add_closet_to_path(vector<int> path, int N, vector<vector<double>>& matrix){
   double best_dist = numeric_limits<double>::max();
   double dist;
-  int best_pos = 1;
+  int best_pos;
   vector<int> new_path(path);
+  
   //For every city
   for(int city=0; city < N; city++){
     //Check if it's already in the path
@@ -63,32 +88,10 @@ vector<int> add_closet_to_path(vector<int> path, int N, vector<vector<double>>& 
   return new_path;
 }
 
-void printMatrix(vector<vector<double>> matrix){
-  for(int i=0; i < matrix.size(); i++){
-    for(int j=0; j < matrix[i].size(); j++){
-      printf("%.4f ", matrix[i][j]);
-    }
-    cout << endl;
-  }
-}
-
-template <typename T>
-void printVector(vector<T> v){
-
-  cout << "vector = [";
-  for(int i =0; i < v.size()-1; i++){
-    cout << v[i] << ",";
-  }
-
-  cout << v[v.size()-1];
-
-  cout << "]" << endl;
-}
-
 double compute_length(vector<int> path, vector<vector<double>> &cities){
   double result = 0;
-  for(int i = 0; i < path.size(); i++){
-    result += cities[path[i]][path[(i+1)%path.size()]];
+  for(int i = 0; i < path.size()-1; i++){
+    result += cities[path[i]][path[i+1]];
   }
 
   return result;
