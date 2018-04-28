@@ -1,0 +1,150 @@
+\documentclass{article}
+\usepackage[left=3cm,right=3cm,top=2.5cm,bottom=2cm]{geometry} % page settings
+\usepackage{amsmath} % provides many mathematical environments & tools
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage[spanish]{babel}
+
+\usepackage{multirow}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{pifont}
+
+\usepackage[utf8]{inputenc}
+\setlength{\parindent}{0mm}
+
+\usepackage[parfill]{parskip}
+
+% Para el código
+\usepackage{listings}
+\usepackage{xcolor}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\newcommand{\n}[1]{{\color{gray}#1}}
+\lstset{numbers=left,numberstyle=\small\color{gray}}
+
+% Entorno para estilo de ejercicios
+\setlength{\parindent}{0pt}
+
+\usepackage{color}   %May be necessary if you want to color links
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor=blue,  %choose some color if you want links to stand out
+}
+
+\usepackage{graphicx}
+\usepackage{subfig}
+
+\usepackage{listings,textcomp}
+\title{Problema del viajante de comercio\\ Travelling salesman problem}
+\author{José Antonio Álvarez Ocete - Norberto Fernández de la Higuera \\ Javier Gálvez Obispo - Yábir García Benchakhtir }
+\date{\today}
+
+% Custom
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\setlength\parindent{0pt}
+\definecolor{Light}{gray}{.90}
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
+
+% Listings
+\lstset{literate=   % listings config
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\EUR}}1 {£}{{\pounds}}1 {ñ}{{\~{n}}}1
+}
+
+\lstset{    %listings config
+	language=C++,
+	belowcaptionskip=1\baselineskip,
+	breaklines=true,
+	frame=L,
+	xleftmargin=0.1in,
+	%otherkeywords={},
+	showstringspaces=false,
+	backgroundcolor=\color{white},
+	basicstyle=\footnotesize\ttfamily,
+	keywordstyle=\bfseries\color{purple!90!black},
+	commentstyle=\itshape\color{gray!85!},
+	identifierstyle=\color{blue!80!black},
+	stringstyle=\color{green!60!black},
+}
+
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Descripción del problema}
+
+En el problema del viajante de comercio (\textit{Travelling Salesman
+  Problem}) se nos dan las coordenadas de un conjunto finito de
+ciudades y se nos pide encontrar un recorrido de las misma de forma
+que la distancia que recorramos sea la menor posible.
+
+\section{Soluciones greedy}
+
+\section{Nearest Neighbor}
+
+\subsection{Cheapest Insertion}
+
+Si tomamos $\Omega$ el conjunto de ciudades, donde cada ciudad la
+notamos como $\omega$ y $\mathcal{M}$ la matriz simetrica de la
+distancia entre las ciudades.
+
+Para este tomamos $<i,j>$ tales que $min(M) = M_{ij}$. Partimos de la
+solución $\Gamma = \{ \omega_i, \omega_j \} $ y en cada iteración
+buscamos la ciudad de índice $p$ tal que $\omega_p \notin \Gamma$ y que minimiza:
+
+\[
+  M_{ip} + M_{jp} - M_{ij}
+\]
+
+Una implementación en pseudo-codigo sería:
+
+\begin{algorithm}[H]
+\caption{Cheap Insert}
+\begin{algorithmic}
+\State i, j = nodes(min($M$))
+\State path = [i, j]
+\For{city in cities}
+\If{city not in path}
+\For{node in path}
+\State minimizeDistance(node, city, node+1)
+\EndFor
+\State insert(path, T)
+\EndIf
+\EndFor
+\State return path
+\end{algorithmic}
+\end{algorithm}
+
+Este algoritmo es un algoritmo claramente greedy donde:
+
+\begin{itemize}
+\item Nuestro conjunto de candidatos es el conjunto $\Omega$.
+\item Mantenemos una lista de candidatos ya usados.
+\item Como criterio para determinar si $\Gamma$ es valido buscamos no
+  tener ciclos y que no se repitan los nodos.
+\item Nuestra función de selección es la definida en algoritmo
+  anterior y que determina en cada situación cual es la menor
+  distancia que podemos agregar.
+\item La función que nos permite comparar soluciones es la distancia
+  del camino final $\Gamma$
+\end{itemize}
+
+\section{Otro algoritmo posible}
+\section{Comparativa de los algoritmos}
+\end{document}
