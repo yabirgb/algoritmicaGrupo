@@ -9,6 +9,8 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 
+#define prod
+
 using namespace std;
 
 
@@ -43,14 +45,14 @@ int nearest_neighbour(vector<double> &d, vector<int> &c){
   double value = numeric_limits<double>::max();
   int shortest = c[0];
   
-  for(int i=0; i < d.size(); i++){
-    if (d[i] < value && find(c.begin(), c.end(), i) != c.end()){
-      value = d[i];
+  for(int i=0; i < c.size(); i++){
+    if (d[c[i]] < value){
+      value = d[c[i]];
       shortest = i;
     }
   }
 
-  return find(c.begin(), c.end(), shortest) - c.begin();
+  return shortest;
 }
 
 void greedy(vector<int> &ini, vector<int> &res, vector<vector<double> > &matrix){
@@ -67,7 +69,7 @@ void greedy(vector<int> &ini, vector<int> &res, vector<vector<double> > &matrix)
   
   for(pos=0; pos<n-1; pos++){
     best_pos = nearest_neighbour(matrix[res[pos]], ini);
-    res.push_back(best_pos);
+    res.push_back(ini[best_pos]);
   	ini.erase(ini.begin() + best_pos);
   }
 }
@@ -105,7 +107,7 @@ int main(int argc, char **argv){
   data >> N; //First line is always the cardinal of cities
 
   int mini, minj;
-  double dist, best=numeric_limits<int>::max();
+  double dist;
 
   //Create a vector of 3-uplas
 
@@ -125,15 +127,7 @@ int main(int argc, char **argv){
       dist = distance(coordinates[i], coordinates[j]);
       cities[i][j] = dist;
       cities[j][i] = cities[i][j];
-
-      if(dist < best){
-	mini = i;
-	minj = j;
-	best = dist;
-      }
-    }
-
-    best=numeric_limits<int>::max();
+	}
   }
   cout << N << endl;
   //printMatrix(cities);
@@ -142,16 +136,28 @@ int main(int argc, char **argv){
   	ini.push_back(i);
   }
   
+  clock_t tStart = clock();
   greedy(ini, result, cities);
+  clock_t finish = clock();
   
   //printVector(result);
+  #ifdef dev
+  cout << "Ciudades: ";
+  printVector(result);
+  cout << " Total: " << result.size() << endl;
   cout << "Total distance: " << compute_length(result, cities) << endl;
+  #endif
+  
   ofstream out(output);
   int city;
   for(int i =0; i < result.size(); i++){
     city = result[i];
     out << city << " " << coordinates[city].first << " " << coordinates[city].second << endl;
   }
+  
+  #ifdef prod
+  cout << compute_length(result, cities) << "\t" << ((double)finish - tStart)/CLOCKS_PER_SEC << endl;
+  #endif
 
 
   //Obtener el grafico de la solución en el  dataset propuesto
@@ -172,7 +178,12 @@ int main(int argc, char **argv){
     salida << city << " " << coordinates[city].first << " " << coordinates[city].second << endl;
   }
 
+  #ifdef dev
   cout << "La longitud de la solución ofrecida es: " << compute_length(ciudades, cities) << endl;
+  cout << "Solución ofrecida: ";
+  printVector(ciudades);
+  cout << endl;
+  #endif
 
   return 0;
 }
