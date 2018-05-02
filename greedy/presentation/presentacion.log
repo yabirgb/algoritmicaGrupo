@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.2.1)  2 MAY 2018 20:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.2.1)  2 MAY 2018 23:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1683,33 +1683,83 @@ Package pdftex.def Info: mapa.png  used on input line 56.
 [2
 
  <./mapa.png>]
-LaTeX Font Info:    Try loading font information for U+msa on input line 74.
+LaTeX Font Info:    Try loading font information for TS1+cmss on input line 66.
+
+ (/usr/local/texlive/2017/texmf-dist/tex/latex/base/ts1cmss.fd
+File: ts1cmss.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+) [3
+
+]
+LaTeX Font Info:    Try loading font information for U+msa on input line 84.
  (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 74.
- (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
+LaTeX Font Info:    Try loading font information for U+msb on input line 84.
+
+(/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 74.
+line 84.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
 thkerncmss.
-) [3
+) [4
 
-] [4
+] [5
 
 <<nearest.gif>>]
-Overfull \vbox (55.79292pt too high) detected at line 104
+Overfull \vbox (55.79292pt too high) detected at line 114
  []
 
-[5
+[6
 
-] [6
+] [7
 
 <<cheap.gif>>]
+Overfull \vbox (55.79292pt too high) detected at line 143
+ []
+
+[8
+
+] [9
+
+<<furthest.gif>>]
+<distancias.png, id=106, 602.25pt x 372.39125pt>
+File: distancias.png Graphic file (type png)
+<use distancias.png>
+Package pdftex.def Info: distancias.png  used on input line 156.
+(pdftex.def)             Requested size: 338.02072pt x 209.01498pt.
+
+Overfull \hbox (30.73085pt too wide) in paragraph at lines 156--156
+ [] 
+ []
+
+
+Overfull \vbox (24.909pt too high) detected at line 156
+ []
+
+[10
+
+ <./distancias.png (PNG copy)>]
+<tiempos.png, id=112, 602.25pt x 372.39125pt>
+File: tiempos.png Graphic file (type png)
+<use tiempos.png>
+Package pdftex.def Info: tiempos.png  used on input line 163.
+(pdftex.def)             Requested size: 338.02072pt x 209.01498pt.
+
+Overfull \hbox (30.73085pt too wide) in paragraph at lines 163--163
+ [] 
+ []
+
+
+Overfull \vbox (24.909pt too high) detected at line 163
+ []
+
+[11
+
+ <./tiempos.png (PNG copy)>]
 \tf@nav=\write6
 \openout6 = `presentacion.nav'.
 
@@ -1726,42 +1776,39 @@ Package movie15 Warning: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 (movie15)                @@ superseded by `media9'.           @@
 (movie15)                @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.
 
-
-Package movie15 Warning: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-(movie15)                @@ Rerun to get object references right! @@
-(movie15)                @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 113.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 113.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 165.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 165.
 (./presentacion.aux
 LaTeX Info: Redefining \. on input line 23.
 LaTeX Info: Redefining \% on input line 23.
 LaTeX Info: Redefining \. on input line 24.
 LaTeX Info: Redefining \% on input line 24.
 )
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 113.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 113.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 165.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 165.
 Package rerunfilecheck Info: File `presentacion.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 25829 strings out of 492980
- 491741 string characters out of 6132495
- 599575 words of memory out of 5000000
- 28795 multiletter control sequences out of 15000+600000
- 15867 words of font info for 57 fonts, out of 8000000 for 9000
+ 25946 strings out of 492980
+ 494597 string characters out of 6132495
+ 599927 words of memory out of 5000000
+ 28894 multiletter control sequences out of 15000+600000
+ 16212 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  71i,13n,83p,1822b,537s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb
-></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb><
-/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></u
-sr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></
-usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></
-usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on presentacion.pdf (6 pages, 386283 bytes).
+{/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
+}</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb>
+</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></
+usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></us
+r/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></u
+sr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></u
+sr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></us
+r/local/texlive/2017/texmf-dist/fonts/type1/public/cm-super/sfss1095.pfb>
+Output written on presentacion.pdf (11 pages, 526947 bytes).
 PDF statistics:
- 102 PDF objects out of 1000 (max. 8388607)
- 77 compressed objects within 1 object stream
- 15 named destinations out of 1000 (max. 500000)
- 112 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 151 PDF objects out of 1000 (max. 8388607)
+ 116 compressed objects within 2 object streams
+ 26 named destinations out of 1000 (max. 500000)
+ 154 words of extra memory for PDF output out of 10000 (max. 10000000)
 

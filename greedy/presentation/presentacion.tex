@@ -55,6 +55,16 @@ Travelling salesman problem}
   
 \end{frame}
 
+\begin{frame}\frametitle{En un problema greedy}
+  \begin{itemize}
+  \item El conjunto de candidatos con el que queremos trabajar.
+  \item Un conjunto de candidatos ya usados.
+  \item Un criterio para determinar la validez de nuestra solución.
+  \item Una función de selección que elija un candidato en función del criterio.
+  \item Una función para comparar soluciones distintas.
+  \end{itemize}
+\end{frame}
+
 \begin{frame}\frametitle{Vecino más cercano}
   
   \begin{algorithm}[H]
@@ -133,11 +143,24 @@ Travelling salesman problem}
 \end{frame}
 
 \begin{frame}\frametitle{Ejemplo de ejecución}
-  \includemovie{1cm}{1cm}{furthest.gif.gif}
+  \includemovie{1cm}{1cm}{furthest.gif}
   \footnote[1]{Si no se muestra correctamente se adjunta el ejemplo en el archivo furthest.gif}
   \footnote[2]{También está disponible en \href{https://imgur.com/a/8DiZvby}{https://imgur.com/a/8DiZvby}}
 \end{frame}
 
+\begin{frame}\frametitle{Resultados obtenidos}
+  \begin{figure}[H]
+  \centering
+  \includegraphics[width=1.1\textwidth]{distancias.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}\frametitle{Comparativa de tiempos}
+  \begin{figure}[H]
+  \centering
+  \includegraphics[width=1.1\textwidth]{tiempos.png}
+\end{figure}
+\end{frame}
 
 \end{document}
 
