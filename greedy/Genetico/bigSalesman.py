@@ -2,12 +2,33 @@
 # This program tries to solve the Salesman Problem with an evolutionary programming approach
 
 import random, numpy, itertools
-from math import sin, pi
+from math import sin, pi, sqrt
 from deap import creator, base, tools, algorithms
 
-# Define vector of cities
-NUM_CITIES = 100
-CITIES = [x for x in range(NUM_CITIES)]
+filename = "ulysses16"
+
+def distance(t1, t2):
+  return sqrt( (t2[1] - t1[1])**2 + (t2[2] - t1[2])**2 )
+
+def coordenadas(filename):
+    with open("../datosTSP/" + filename + ".tsp", 'r') as f:
+
+        cities = []
+        size = int(f.readline().split(" ")[1])
+        for city in range(size):
+            data = list(map(float, f.readline().lstrip().split(" ")))
+            cities.append((data[0], data[1], data[2]))
+            del data
+
+        return cities
+
+# Define vector of cities (index, coordinate_x, coordinate_y)
+mapear = coordenadas(filename)
+
+
+#Matrix of distances
+Costs = [[distance(x, y) for y in mapear] for x in mapear]
+NUM_CITIES = len(Costs)
 
 # Printer for the populations
 def printPop(population):
@@ -21,18 +42,9 @@ def evalF(individual):
         result += Costs[elem][ individual[ (pos+1) % NUM_CITIES] ]
     return result,
 
-# Define the costs of travelling
-NCPB = 5
-Costs = [[x for x in range(NUM_CITIES)] for _ in range(NUM_CITIES)]
-for i in range(NUM_CITIES):
-    for j in range(NUM_CITIES):
-        #if (random.randint(1,100) <= NCPB):
-        #    Costs[i][j] = -1
-        #else:
-            Costs[i][j] = numpy.random.uniform(10,40,None)
-
-print("\n\tCost of travelling from city i to j:")
-print(Costs)
+# Show the distances of travelling
+#print("\n\tCost of travelling from city i to j:")
+#print(Costs)
 
 creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
 creator.create("Individual", list, fitness=creator.FitnessMin)
