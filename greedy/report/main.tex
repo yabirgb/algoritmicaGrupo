@@ -162,7 +162,7 @@ Una implementación en pseudo-codigo sería:
 \For{city in cities}
 \If{city not in path}
 \For{node in path}
-\State minimizeDistance(node, city, node+1)
+\State T = minimizeDistance(node, city, node+1)
 \EndFor
 \State insert(path, T)
 \State remove($\mathcal{C}$, T)
@@ -187,7 +187,38 @@ Este algoritmo es un algoritmo claramente greedy donde:
   del camino final $\Gamma$
 \end{itemize}
 
-\subsection{Otro algoritmo posible}
+La eficiencia de este algoritmo es $(n^3)$ que no es de las mejores
+pero nos aporta soluciones muy buenas como podremos ver en la parte
+comparativa.
+
+\subsection{Farthest insertion}
+
+\begin{algorithm}[H]
+\caption{Cheap Insert}
+\begin{algorithmic}
+\State i, j = nodes(max($M$))
+\State path = [i, j]
+\State $\mathcal{C}$ = $\Omega$ - path
+\While{C not empty}
+\For{city in cities}
+\If{city not in path}
+\For{node in path}
+\State T = maximize(node, city, node+1)
+\EndFor
+\State insert(path, T)
+\State remove($\mathcal{C}$, T)
+\EndIf
+\EndFor
+\EndWhile
+\State return path
+\end{algorithmic}
+\end{algorithm}
+
+Este algoritmo es parecido al anterior pero en lugar de primar las
+distancias más cortas buscamos aquellas que son mas largas. La
+eficiencia es similar a la anterior.
+
+\section{Otro algoritmo posible}
 
 Finalmente hemos implementado una tercera estrategia basada en un algoritmo genético. Dadas las dimensiones del problema (NP-completo), es natural buscar una solución lo suficientemente buena aunque no tenga por qué ser la mejor. Este es exactamente el punto de vista que hemos tomado para abordar esta tercera solución.
 
@@ -207,7 +238,7 @@ Las operaciones que se realizan sobre los individuos son operadores de cruce y o
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.8\textwidth]{report/imag1.png}
+		\includegraphics[width=0.8\textwidth]{imag1.png}
 		\caption{Operador de cruce de orden.}
 	\end{figure}
 	
@@ -215,7 +246,7 @@ Las operaciones que se realizan sobre los individuos son operadores de cruce y o
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.8\textwidth]{report/imag2.png}
+		\includegraphics[width=0.8\textwidth]{imag2.png}
 		\caption{Operador de mutación por intercambio.}
 	\end{figure}
 	
@@ -230,8 +261,7 @@ Finalmente y antes de explicar el flujo del algoritmo en si hace falta definir u
 
 Una vez definidos los operadores, el algoritmo en si es sencillo. Realizaremos $n_generaciones$ generaciones a partir de una poblacion de $N$ individuos obtenida aleatoriamente. En cada generación se escogen padres (con el operador de selección) y se cruzan (con el operador de cruce) hasta obtener una nueva generación de $N$ elementos. Estos nuevos individuos se mutan (bajo una probabilidad $mutate_probability$) y finalmente se sustituye la población anterior por la nueva.
 
-\begin{verbatim}
-// Initialize the population and evaluate it
+\begin{lstlisting}
 InitializePopulation(population, pob_size, n_cities);
 best_gen_ever = *population[0];
 EvaluatePopulation(population, best_gen_ever, cities);
@@ -249,7 +279,7 @@ for (int i=0; i<n_generations; i++) {
 	// Replace the old population with the new one
 	ReplaceGeneration(population, new_generation);
 }
-\end{verbatim}
+\end{lstlisting}
 
 Nuestra mejor solución está almacenada en $best_gen_ever$.
 
