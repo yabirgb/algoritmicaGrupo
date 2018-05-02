@@ -1,6 +1,7 @@
 all:
 	g++ -o cheap cheapInserction.cpp -std=c++11 -O2
 	g++ -o nearest nearestNeighbour.cpp -std=c++11 -O2
+	g++ -o farthest furInserction.cpp -std=c++11 -O2
 
 run:
 	./cheap datosTSP/pr2392.tsp pr2392
@@ -15,10 +16,11 @@ pdf:
 
 ulysses:
 	./cheap datosTSP/ulysses16.tsp ulysses16
-	./near datosTSP/ulysses16.tsp ulysses16	
+	./near datosTSP/ulysses16.tsp ulysses16
+	./farthest datosTSP/ulysses16.tsp ulysses16
 	./plot.sh cheap ulysses16
 	./plot.sh nearest ulysses16
-
+	./plot.sh farthest ulysses16
 
 genetic:
 	g++ -o genetic genetic.cpp -std=c++11
