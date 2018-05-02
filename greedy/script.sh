@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ $# -ne 1 ]; then
-	printf "./script.sh [nearest|cheap] \n"
+	printf "./script.sh [nearest|cheap|genetic] \n"
 else
 	output=$1_outputs; cp /dev/null $output
 	for i in datosTSP/*.tsp;

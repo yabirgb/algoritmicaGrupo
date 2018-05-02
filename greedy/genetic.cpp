@@ -261,7 +261,7 @@ int main(int argc, char **argv){
 
   output += args[1] + ".tour";
   
-  cout << output <<endl;
+  //cout << output <<endl;
 
   //Open the file
   filename = argv[1];
@@ -299,7 +299,7 @@ int main(int argc, char **argv){
 
     best=numeric_limits<int>::max();
   }
-  cout << N << endl;
+  //cout << N << endl;
   //printMatrix(cities);
 
   clock_t tStart = clock();
