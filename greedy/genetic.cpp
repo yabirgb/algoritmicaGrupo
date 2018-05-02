@@ -9,6 +9,8 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 
+#define prod
+
 using namespace std;
 
 void printMatrix(vector<vector<double> > &matrix){
@@ -244,7 +246,7 @@ int main(int argc, char **argv){
   int n; //Positional argument in input data
   int next_node;
   string filename; //File that contains the input data;
-  string output = "salida.tour";
+  string output = "salida/genetic_";
   string trash;
   vector<int> ini, result; //Vector of integers representing the order of cities
   int initial;
@@ -253,6 +255,13 @@ int main(int argc, char **argv){
     cerr << "Error in the number of arguments" << endl;
     return 1;
   }
+  
+  std::vector<std::string> args;
+  std::copy(argv + 1, argv + argc, std::back_inserter(args));
+
+  output += args[1] + ".tour";
+  
+  cout << output <<endl;
 
   //Open the file
   filename = argv[1];
@@ -293,18 +302,31 @@ int main(int argc, char **argv){
   cout << N << endl;
   //printMatrix(cities);
 
+  clock_t tStart = clock();
   genetic(result, cities);
+  clock_t finish = clock();
 
   //printVector(result);
+  #ifdef dev
+  cout << "Ciudades: ";
+  printVector(result);
+  cout << " Total: " << result.size() << endl;
   cout << "Total distance: " << compute_length(result, cities) << endl;
+  #endif
+  
   ofstream out(output);
   int city;
   for(int i =0; i < result.size(); i++){
     city = result[i];
     out << city << " " << coordinates[city].first << " " << coordinates[city].second << endl;
   }
+  
+  #ifdef prod
+  cout << compute_length(result, cities) << "\t" << ((double)finish - tStart)/CLOCKS_PER_SEC << endl;
+  #endif
 
   //Obtener el grafico de la solución en el  dataset propuesto
+  #ifdef dev
   ifstream archivo(argv[2]);
   vector<int> ciudades;
   int k;
@@ -322,6 +344,7 @@ int main(int argc, char **argv){
   }
 
   cout << "La longitud de la solución ofrecida es: " << compute_length(ciudades, cities) << endl;
+  #endif
 
   return 0;
 }
