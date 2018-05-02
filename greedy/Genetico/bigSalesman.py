@@ -25,7 +25,6 @@ def coordenadas(filename):
 # Define vector of cities (index, coordinate_x, coordinate_y)
 mapear = coordenadas(filename)
 
-
 #Matrix of distances
 Costs = [[distance(x, y) for y in mapear] for x in mapear]
 NUM_CITIES = len(Costs)
@@ -75,3 +74,17 @@ for _ in itertools.repeat(None, NGEN):
 
 print("\n\tBest 5 of the final population:")
 printPop(tools.selBest(population, k=5))
+
+#output
+def outofhere(just_ids):
+    output = ""
+
+    for idc in just_ids:
+        city = next(c for c in mapear if c[0]==idc)
+        output += "{0} {1} {2}\n".format(*city)
+
+    with open(filename+".out", 'w') as f:
+        f.write(output)
+
+
+outofhere(tools.selBest(population, k=1))
