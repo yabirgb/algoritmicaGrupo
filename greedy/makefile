@@ -1,6 +1,6 @@
 all:
 	g++ -o cheap cheapInserction.cpp -std=c++11 -O2
-	g++ -o near nearestNeighbour.cpp -std=c++11 -O2
+	g++ -o nearest nearestNeighbour.cpp -std=c++11 -O2
 
 run:
 	./cheap datosTSP/pr2392.tsp pr2392
