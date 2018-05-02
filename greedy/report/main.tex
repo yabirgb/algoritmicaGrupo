@@ -274,7 +274,7 @@ cruce y operadores de mutación:
 	
 \end{itemize}
  
-Ambos imágenes provienendel siguiente enlace, diapositivas 20 y 17 respectivamente:
+Ambas imágenes provienen del siguiente enlace, diapositivas 20 y 17 respectivamente:
 http://users.exa.unicen.edu.ar/~icompevol/filminasenpdf/terceraclase.pdf
 
 Además, hemos de medir cuan buena es cada una de nuestras soluciones,
@@ -327,7 +327,7 @@ c\section{Conclusiones}
 Como criterio para realizar las comparaciones entre algoritmos hemos usado la
 distancia del recorrido obtenido como solución.
 
-Se ha procedido a ejecutar todos los algoritmos con todos los mapas
+Se ha procedido a ejecutar todos los algoritmos con casi todos los mapas
 usando el ordenador de Javier Galvez que cuenta con un i5-6200U con 4
 núcleos a 2.3GHz, 8GB de RAM y ubuntu 16 LTS de 64 bits como sistema
 operativo.
@@ -347,11 +347,6 @@ las distancias.
 
 Claramente en este problema las soluciones propuestas vencen a la
 solución propuesta como algoritmo genético.
-
-Si consideramos importantes los tiempos de ejecución tenemos que
-apreciar que el del vecino más cercanos obtiene tiempos más pequeños
-debido a que su complejidad es solo $O(n^2)$ comparado con $O(n^3)$ de
-los otros.
 
 \begin{table}[h]
   \centering
@@ -379,5 +374,40 @@ los otros.
   \caption{Distancias de las soluciones de cada algoritmo}
 \end{table}
 
+Si consideramos importantes los tiempos de ejecución tenemos que
+apreciar que el del vecino más cercanos obtiene tiempos más pequeños, tal 
+y como se muestra en la figura 4, comparativa de los tiempos obtenidos,
+debido a que su complejidad es solo $O(n^2)$ comparado con $O(n^3)$ de
+los otros.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{tiempos.png}
+  \caption{Comparativa de los tiempos obtenidos.}
+\end{figure}
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+		Ciudades & Nearest Neighbour & Cheap Insertion & Farthest Insertion & Genetic \\ \hline
+		att48 & 1.30E-05 & 0.000077 & 0.0003645420074 & 7.50E-05 \\
+		ch130 & 2.80E-05 & 0.001036 & 0.001276254654 & 0.001046 \\
+		ch150 & 3.20E-05 & 0.001639 & 0.001598119736 & 0.00165 \\
+		eil101 & 2.00E-05 & 0.000481 & 0.0007848739624 & 0.000509 \\
+		eil51 & 1.30E-05 & 0.000086 & 0.0003752708435 & 8.50E-05 \\
+		eil76 & 1.60E-05 & 0.000211 & 0.009517192841 & 0.000213 \\
+		gr120 & 2.40E-05 & 0.000812 & 0.001033306122 & 0.000807 \\
+		gr202 & 5.10E-05 & 0.004005 & 0.01144886017 & 0.004094 \\
+		gr96 & 2.00E-05 & 0.000426 & 0.0007734298706 & 0.000587 \\
+		kroA100 & 2.10E-05 & 0.000476 & 0.0008034706116 & 0.000556 \\
+		kroC100 & 2.00E-05 & 0.000494 & 0.000857591629 & 0.000466 \\
+		kroD100 & 1.90E-05 & 0.000505 & 0.001019954681 & 0.000472 \\
+		lin105 & 2.40E-05 & 0.000548 & 0.0009834766388 & 0.000531 \\
+		rd100 & 2.20E-05 & 0.000474 & 0.0008871555328 & 0.000467 \\
+		st70 & 1.60E-05 & 0.000217 & 0.0006074905396 & 0.000223 \\
+		tsp225 & 5.30E-05 & 0.005844 & 0.003359794617 & 0.005926 \\ \hline
+	\end{tabular} 
+  \caption{Tiempos de las soluciones de cada algoritmo}
+\end{table}
 \end{document}
