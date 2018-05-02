@@ -96,7 +96,44 @@ que la distancia que recorramos sea la menor posible.
 
 \section{Soluciones greedy}
 
-\section{Nearest Neighbor}
+\subsection{Nearest Neighbor}
+
+Teniendo como conjunto de ciudades $\Omega$ y la matriz $\mathcal{M}$ 
+que contiene la distancia entre cada una de las ciudades, partimos de
+$\mathcal{C}$  el conjunto de posibles candidatos (su valor inicial es
+$\Omega$) y el conjunto solución $\mathcal{R}$ (se inicializa vacío).
+
+Mediante ésta estructura el algoritmo se puede clasificar como greedy, 
+teniendo en cuenta que a cada iteración del algoritmo se busca el óptimo 
+local (la ciudad más cercana a la actual) y todos los candidatos usados 
+pasan al conjunto solución $\mathcal{R}$, descartándolos del conjunto 
+$\mathcal{C}$.
+
+
+El funcionamiento del algoritmo sería el siguiente:
+
+\begin{algorithm}[H]
+\caption{Nearest Neighbor}
+\begin{algorithmic}
+\State $\mathcal{R}$ = [random()$\%|$ $\Omega$ $|$]
+\State $\mathcal{C}$ - $\mathcal{R}$[0]
+\For{pos in [0,n-2]}
+\State bestPos = nearest($\mathcal{M}$[$\mathcal{R}$[pos]],$\mathcal{C}$)
+\State $\mathcal{R}$.push($\mathcal{C}$[bestPos])
+\State $\mathcal{C}$.erase(bestPos)
+\EndFor
+\State return $\mathcal{R}$
+\end{algorithmic}
+\end{algorithm}
+
+Donde la función "nearest" devuelve la posición de la ciudad que, de entre 
+todos los candidatos, está más cerca a la actual.
+
+El algoritmo es O(n²) ya que tiene la misma estructura que el algoritmo de
+ordenación por selección, donde se escogía el valor mínimo de las componentes 
+que no se habían insertado todavía. En nuestro caso se escoge la ciudad que 
+es la más cercana a la actual y se incluye en el conjunto solución, a partir 
+del cual se repetirá el mismo procedimiento.
 
 \subsection{Cheapest Insertion}
 
@@ -145,6 +182,6 @@ Este algoritmo es un algoritmo claramente greedy donde:
   del camino final $\Gamma$
 \end{itemize}
 
-\section{Otro algoritmo posible}
+\subsection{Otro algoritmo posible}
 \section{Comparativa de los algoritmos}
 \end{document}
