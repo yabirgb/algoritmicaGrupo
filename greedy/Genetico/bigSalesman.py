@@ -86,8 +86,17 @@ def outofhere(just_ids):
     with open(filename+".out", 'w') as f:
         f.write(output)
 
+sol = tools.selBest(population, k=1)
 t1 = time.time()
-outofhere(tools.selBest(population, k=1))
+outofhere(sol)
 t2 = time.time()
+dist = 0
 
-print(t2-t1)
+for i in range(len(sol[0])-1):
+  id1 = sol[0][i]
+  id2 = sol[0][i+1]
+  coord1 = next(c for c in mapear if c[0] == id1)
+  coord2 = next(c for c in mapear if c[0] == id2)
+  dist += distance(coord1, coord2)
+
+print("{} {}".format(dist, t2-t1))
