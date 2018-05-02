@@ -90,15 +90,20 @@ int main(int argc, char **argv){
   int n; //Positional argument in input data
   int next_node;
   string filename; //File that contains the input data;
-  string output = "salida.tour";
+  string output = "salida/nearest_";
   string trash;
   vector<int> ini, result; //Vector of integers representing the order of cities
   int initial;
 
-  if(argc != 3){
+  if(argc > 3){
     cerr << "Error in the number of arguments" << endl;
     return 1;
   }
+
+  std::vector<std::string> args;
+  std::copy(argv + 1, argv + argc, std::back_inserter(args));
+
+  output += args[1] + ".tour";
   
   //Open the file
   filename = argv[1];
@@ -161,7 +166,7 @@ int main(int argc, char **argv){
 
 
   //Obtener el grafico de la solución en el  dataset propuesto
-
+  #ifdef dev
   ifstream archivo(argv[2]);
   vector<int> ciudades;
   int k;
@@ -178,7 +183,7 @@ int main(int argc, char **argv){
     salida << city << " " << coordinates[city].first << " " << coordinates[city].second << endl;
   }
 
-  #ifdef dev
+  
   cout << "La longitud de la solución ofrecida es: " << compute_length(ciudades, cities) << endl;
   cout << "Solución ofrecida: ";
   printVector(ciudades);

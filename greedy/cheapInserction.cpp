@@ -8,10 +8,23 @@
 #include <limits>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
+#include <string.h>
 
 #define prod
 
 using namespace std;
+
+/*
+
+  Ejemplo de uso:
+  Con prod definido 
+
+  ./cheap mapa.tour nombre_del_archivo_de_salida
+
+  Con dev definido
+  
+  ./cheap mapa.tour mapa.opt.tour nombre_del_archivo_de_salida
+ */
 
 
 void printMatrix(vector<vector<double> > matrix){
@@ -114,13 +127,18 @@ int main(int argc, char **argv){
   int n; //Positional argument in input data
   int next_node;
   string filename; //File that contains the input data;
-  string output = "salida.tour";
+  string output = "salida/cheap_";
   string trash;
   vector<int> result; //Vector of integers representing the order of cities
   int initial;
   double dist;
 
-  if(argc != 3){
+  std::vector<std::string> args;
+  std::copy(argv + 1, argv + argc, std::back_inserter(args));
+
+  output += args[1] + ".tour";
+
+  if(argc > 3){
     cerr << "Error in the number of arguments" << endl;
     return 1;
   }
@@ -193,6 +211,7 @@ int main(int argc, char **argv){
 
   //Obtener el grafico de la solución en el  dataset propuesto
 
+  #ifdef dev
   ifstream archivo(argv[2]);
   vector<int> ciudades;
   int k;
@@ -208,8 +227,8 @@ int main(int argc, char **argv){
     city = ciudades[i];
     salida << city << " " << coordinates[city].first << " " << coordinates[city].second << endl;
   }
-
-  #ifdef dev
+  
+  
   cout << "La longitud de la solución ofrecida es: " << compute_length(ciudades, cities) << endl;
   cout << "Solución ofrecida: ";
   printVector(ciudades);

@@ -1,15 +1,16 @@
 all:
 	g++ -o cheap cheapInserction.cpp -std=c++11
-	./cheap datosTSP/pr2392.tsp datosTSP/pr2392.opt.tour
-	./plot.sh
+	g++ -o near nearestNeighbour.cpp -std=c++11
 
 run:
-	g++ -o cheap cheapInserction.cpp -std=c++11
-	./cheap datosTSP/pr2392.tsp datosTSP/pr2392.opt.tour
-	./plot.sh
+	./cheap datosTSP/pr2392.tsp pr2392
+	./near datosTSP/pr2392.tsp pr2392	
+	./plot.sh cheap pr2392
+	./plot.sh nearest pr2392
 
 
 ulysses:
-	g++ -o cheap cheapInserction.cpp -std=c++11
-	./cheap datosTSP/ulysses16.tsp datosTSP/ulysses16.opt.tour
-	./plot.sh
+	./cheap datosTSP/ulysses16.tsp ulysses16
+	./near datosTSP/ulysses16.tsp ulysses16	
+	./plot.sh cheap ulysses16
+	./plot.sh nearest ulysses16
