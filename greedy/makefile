@@ -10,10 +10,11 @@ run:
 
 
 ulysses:
-<<<<<<< HEAD
-	g++ -o cheap cheapInserction.cpp -std=c++11
-	./cheap datosTSP/ulysses16.tsp datosTSP/ulysses16.opt.tour
-	./plot.sh
+	./cheap datosTSP/ulysses16.tsp ulysses16
+	./near datosTSP/ulysses16.tsp ulysses16	
+	./plot.sh cheap ulysses16
+	./plot.sh nearest ulysses16
+
 
 genetic:
 	g++ -o genetic genetic.cpp -std=c++11
@@ -24,9 +25,3 @@ genetic-big:
 	g++ -o genetic genetic.cpp -std=c++11
 	./genetic datosTSP/pr2392.tsp datosTSP/pr2392.opt.tour
 	./plot.sh
-=======
-	./cheap datosTSP/ulysses16.tsp ulysses16
-	./near datosTSP/ulysses16.tsp ulysses16	
-	./plot.sh cheap ulysses16
-	./plot.sh nearest ulysses16
->>>>>>> 9dc5306c694c2ef0e8b493b5fb4aaba5832d57dc
