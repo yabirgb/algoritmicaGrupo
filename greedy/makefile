@@ -10,6 +10,8 @@ run:
 
 pdf:
 	pdflatex report/main.tex
+	mv main.pdf report/greedy.pdf
+	latexmk -c report/main.tex
 
 ulysses:
 	./cheap datosTSP/ulysses16.tsp ulysses16
