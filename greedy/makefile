@@ -8,6 +8,8 @@ run:
 	./plot.sh cheap pr2392
 	./plot.sh nearest pr2392
 
+pdf:
+	pdflatex report/main.tex
 
 ulysses:
 	./cheap datosTSP/ulysses16.tsp ulysses16
