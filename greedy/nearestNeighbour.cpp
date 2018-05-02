@@ -134,7 +134,6 @@ int main(int argc, char **argv){
       cities[j][i] = cities[i][j];
 	}
   }
-  cout << N << endl;
   //printMatrix(cities);
 
   for(int i=0; i<N; i++){
