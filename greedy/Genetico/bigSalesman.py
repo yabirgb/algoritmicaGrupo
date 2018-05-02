@@ -17,7 +17,7 @@ def coordenadas(filename):
         size = int(f.readline().split(" ")[1])
         for city in range(size):
             data = list(map(float, f.readline().lstrip().split(" ")))
-            cities.append((data[0], data[1], data[2]))
+            cities.append((data[0]-1, data[1], data[2]))
             del data
 
         return cities
@@ -78,13 +78,12 @@ printPop(tools.selBest(population, k=5))
 #output
 def outofhere(just_ids):
     output = ""
-
+    just_ids = just_ids[0]
     for idc in just_ids:
-        city = next(c for c in mapear if c[0]==idc)
-        output += "{0} {1} {2}\n".format(*city)
+      city = next(c for c in mapear if c[0] == idc)
+      output += "{0} {1} {2}\n".format(*city)
 
     with open(filename+".out", 'w') as f:
         f.write(output)
-
 
 outofhere(tools.selBest(population, k=1))
