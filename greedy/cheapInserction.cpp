@@ -190,9 +190,7 @@ int main(int argc, char **argv){
     out << city << " " << coordinates[city].first << " " << coordinates[city].second << endl;
   }
 
-
   //Obtener el grafico de la solución en el  dataset propuesto
-
   ifstream archivo(argv[2]);
   vector<int> ciudades;
   int k;
