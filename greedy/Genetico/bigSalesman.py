@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 # This program tries to solve the Salesman Problem with an evolutionary programming approach
 
-import random, numpy, itertools
+import random, numpy, itertools, sys, time
 from math import sin, pi, sqrt
 from deap import creator, base, tools, algorithms
 
-filename = "ulysses16"
+filename = sys.argv[1]
 
 def distance(t1, t2):
   return sqrt( (t2[1] - t1[1])**2 + (t2[2] - t1[2])**2 )
@@ -62,8 +62,8 @@ toolbox.register("select", tools.selTournament, tournsize=3)
 CXPB, MUTPB, NGEN = 0.5, 0.2, 1000
 population = toolbox.population(n=50)
 
-print("\n\tBest 20 of the initial population:")
-printPop(tools.selBest(population, k=20))
+#print("\n\tBest 20 of the initial population:")
+#printPop(tools.selBest(population, k=20))
 
 for _ in itertools.repeat(None, NGEN):
     offspring = algorithms.varAnd(population, toolbox, CXPB, MUTPB)
@@ -72,8 +72,8 @@ for _ in itertools.repeat(None, NGEN):
         ind.fitness.values = fit
     population = toolbox.select(offspring, k=len(population))
 
-print("\n\tBest 5 of the final population:")
-printPop(tools.selBest(population, k=5))
+#print("\n\tBest 5 of the final population:")
+#printPop(tools.selBest(population, k=5))
 
 #output
 def outofhere(just_ids):
@@ -86,4 +86,8 @@ def outofhere(just_ids):
     with open(filename+".out", 'w') as f:
         f.write(output)
 
+t1 = time.time()
 outofhere(tools.selBest(population, k=1))
+t2 = time.time()
+
+print(t2-t1)
