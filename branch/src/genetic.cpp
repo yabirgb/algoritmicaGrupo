@@ -9,16 +9,42 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 
-#define prod
-
 using namespace std;
 
-void printMatrix(vector<vector<double> > &matrix){
-  for(int i=0; i < matrix.size(); i++){
-    for(int j=0; j < matrix[i].size(); j++){
-      printf("%.4f ", matrix[i][j]);
+int MAX = 100;
+vector< vector< int> > afinidades;
+vector< vector< int> > aversiones;
+
+void GenerarAfinidadesAversiones(int n_comensales, int seed) {
+  srand(12345678 * seed);
+  vector< vector<int> > m (n_comensales, vector<int>(n_comensales, 0));
+  aversiones = m;
+
+  for (int i=0; i<n_comensales; i++) {
+    for (int j=0; j<n_comensales; j++) {
+      m[i][j] = rand() % MAX+1;
     }
-    cout << endl;
+  }
+
+  afinidades = m;
+
+  for (int i=0; i<m.size(); i++) {
+    for (int j=0; j<m.size(); j++) {
+      m[i][j] = afinidades[i][j] + afinidades[j][i];
+      aversiones[i][j] = 2*MAX - m[i][j];
+    }
+  }
+
+  afinidades = m;
+}
+
+void printMatrix(vector<vector<int> > &matrix){
+  for(int i=0; i < matrix.size(); i++){
+    cout << "[ ";
+    for(int j=0; j < matrix[i].size(); j++){
+      cout << matrix[i][j] << " ";
+    }
+    cout << "]" << endl;
   }
 }
 
@@ -35,17 +61,16 @@ void printVector(vector<T> &v){
   cout << "]" << endl;
 }
 
-
 double distance(pair<double, double> c1, pair<double, double> c2){
   return hypot(c2.first - c1.first, c2.second - c1.second);
 }
 
-double compute_length(vector<int> &path, const vector<vector<double> > &cities){
+double evaluate(vector<int> &v, const vector<vector<int> > &m){
   double result = 0;
-  for(int i = 0; i < path.size()-1; i++){
-    result += cities[path[i]][path[i+1]];
+  for(int i = 0; i < v.size()-1; i++){
+    result += m[v[i]][v[i+1]];
   }
-  result += cities[0][path[path.size()-1]];
+  result += m[v[0]][v[v.size()-1]];
   return result;
 }
 
@@ -56,15 +81,15 @@ struct gen{
 
 // Create the initial population randomly
 // The population has NOT been evaluated
-void InitializePopulation(vector<gen*> &population, int pob_size, int n_cities) {
+void InitializePopulation(vector<gen*> &population, int pob_size, int n_comen) {
     population.clear();
 
     vector<int> permutation;
-    for (int i=0; i<n_cities; i++)
+    for (int i=0; i<n_comen; i++)
       permutation.push_back(i);
 
     for (int i=0; i<pob_size; i++) {
-      gen *aux_gen = new gen;;
+      gen *aux_gen = new gen;
       aux_gen->v = permutation;
       random_shuffle(aux_gen->v.begin(), aux_gen->v.end());
       population.push_back(aux_gen);
@@ -179,9 +204,9 @@ void ApplyMutation(vector<gen*> &population, double prob) {
 
 // Evaluates the population and saves the best solution found
 void EvaluatePopulation (vector<gen*> &population, gen &best_gen,
-      const vector<vector<double> > &cities ) {
+      const vector<vector<int> > &aversiones ) {
   for (int i=0; i<population.size(); i++) {
-    population[i]->f_eval = compute_length(population[i]->v, cities);
+    population[i]->f_eval = evaluate(population[i]->v, aversiones);
     if (population[i]->f_eval < best_gen.f_eval) {
       best_gen = *population[i];
     }
@@ -204,10 +229,20 @@ void PrintPop(vector<gen*> &pop) {
   }
 }
 
-void genetic(vector<int> &solution, const vector<vector<double> > &cities){
-  int pob_size = 500, n_generations = 500;
-  int n_cities = cities.size();
+double AvFitness (vector<gen*> &population,
+      const vector<vector<int> > &aversiones ) {
+  double total_f = 0;
+  for (int i=0; i<population.size(); i++) {
+    total_f += evaluate(population[i]->v, aversiones);
+  }
+  return total_f / population.size();
+}
+
+double genetic(vector<int> &solution, const vector<vector<int> > &aversiones){
+  int pob_size = 500, n_generations = 200;
+  int n_comen = aversiones.size();
   double mutate_propability = 0.05;
+  double initial_pop_av_fit;
 
   vector<gen*> population;
   vector<gen*> new_generation;
@@ -216,9 +251,9 @@ void genetic(vector<int> &solution, const vector<vector<double> > &cities){
   srand(time(NULL));
 
   // Initialize the population and evaluate it
-  InitializePopulation(population, pob_size, n_cities);
-  best_gen_ever = *population[0];
-  EvaluatePopulation(population, best_gen_ever, cities);
+  InitializePopulation(population, pob_size, n_comen);
+  best_gen_ever.f_eval = numeric_limits<int>::max();
+  EvaluatePopulation(population, best_gen_ever, aversiones);
 
   //PrintPop(population);
 
@@ -230,121 +265,71 @@ void genetic(vector<int> &solution, const vector<vector<double> > &cities){
     ApplyMutation(new_generation, mutate_propability);
 
     // Evaluate the new population and save the best solution found
-    EvaluatePopulation(new_generation, best_gen_ever, cities);
+    EvaluatePopulation(new_generation, best_gen_ever, aversiones);
 
     // Replace the old population with the new one
     ReplaceGeneration(population, new_generation);
+
+    //cout << "Generation: " << i << ". Fitness: " << best_gen_ever.f_eval << endl;
+    //printVector(best_gen_ever.v);
   }
 
   // Return the solution
   solution = best_gen_ever.v;
+
+  return best_gen_ever;
 }
 
 int main(int argc, char **argv){
-  int N; //Total number of cities
-  double x, y; //Variables for data imput
-  int n; //Positional argument in input data
-  int next_node;
-  string filename; //File that contains the input data;
-  string output = "salida/genetic_";
-  string trash;
-  vector<int> ini, result; //Vector of integers representing the order of cities
-  int initial;
-
-  if(argc != 3){
-    cerr << "Error in the number of arguments" << endl;
+  if(argc != 2){
+    cerr << "Ejecución: ./" << argv[0] << " <max_n_comensales>" << endl;
     return 1;
   }
-  
-  std::vector<std::string> args;
-  std::copy(argv + 1, argv + argc, std::back_inserter(args));
 
-  output += args[1] + ".tour";
-  
-  //cout << output <<endl;
+  int max_n_comensales = atoi(argv[1]);
 
-  //Open the file
-  filename = argv[1];
-  ifstream data(filename);
-  data >> trash;
-  data >> N; //First line is always the cardinal of cities
+  GenerarAfinidadesAversiones(n_comen, j);
+  // Al genetico le pasamos el vector para almacenar la solucion y la matriz sobre la que operamos.
+  // Devuelve el fitness del elemento
+  double resultado_vota_increible = genetic(result, aversiones);
 
-  int mini, minj;
-  double dist, best=numeric_limits<int>::max();
 
-  //Create a vector of 3-uplas
-  vector<pair<double, double> > coordinates;
 
-  //Create an square matrix
-  vector<vector<double> > cities(N, vector<double>(N,0));
+    // TODO LO QUE HAY AQUI DEBAJO ES BORRABLE, NO SE QUE USO QUEREIS HACER DE ELLO
+  int n_repetitions = 10;
+  ofstream output_times("datos/genetic_times.dat");
+  ofstream output_sol("datos/genetic_sol.dat");
+  ofstream output_initial_sol("datos/genetic_initial_sol.dat");
+  vector<int> result;
+  double total_time, total_aversion, total_initial_fit;
 
-  //Store all the input data
-  for(int i=0; i < N; i++){
-    data >> n >> x >> y;
-    coordinates.push_back({x,y});
-  }
+  for (int n_comen=3; n_comen<=max_n_comensales; n_comen++) {
+    total_time = 0;
+    total_aversion = 0;
+    total_initial_fit = 0;
 
-  for(int i = 0; i < N; i++){
-    for(int j=0; j < i; j++){
-      dist = distance(coordinates[i], coordinates[j]);
-      cities[i][j] = dist;
-      cities[j][i] = cities[i][j];
+    for (int j=0; j<n_repetitions; j++) {
 
-      if(dist < best){
-      	mini = i;
-      	minj = j;
-      	best = dist;
-      }
+      GenerarAfinidadesAversiones(n_comen, j);
+      //printMatrix(aversiones);
+
+      clock_t tStart = clock();
+      total_initial_fit += genetic(result, aversiones);
+      clock_t finish = clock();
+
+      total_time += ((double)finish - tStart)/CLOCKS_PER_SEC;
+      total_aversion += evaluate(result, aversiones);
     }
 
-    best=numeric_limits<int>::max();
+    total_time /= n_repetitions;
+    total_aversion /= n_repetitions;
+    total_initial_fit /= n_repetitions;
+    output_times << n_comen << "\t" << total_time << endl;
+    output_sol << n_comen << "\t" << total_aversion << endl;
+    output_initial_sol << n_comen << "\t" << total_initial_fit << endl;
+
+    cout << "Mejor solución: ";
+    printVector(result);
+    cout << "Con aversión: " << evaluate(result, aversiones) << endl;
   }
-  //cout << N << endl;
-  //printMatrix(cities);
-
-  clock_t tStart = clock();
-  genetic(result, cities);
-  clock_t finish = clock();
-
-  //printVector(result);
-  #ifdef dev
-  cout << "Ciudades: ";
-  printVector(result);
-  cout << " Total: " << result.size() << endl;
-  cout << "Total distance: " << compute_length(result, cities) << endl;
-  #endif
-  
-  ofstream out(output);
-  int city;
-  for(int i =0; i < result.size(); i++){
-    city = result[i];
-    out << city << " " << coordinates[city].first << " " << coordinates[city].second << endl;
-  }
-  
-  #ifdef prod
-  cout << compute_length(result, cities) << "\t" << ((double)finish - tStart)/CLOCKS_PER_SEC << endl;
-  #endif
-
-  //Obtener el grafico de la solución en el  dataset propuesto
-  #ifdef dev
-  ifstream archivo(argv[2]);
-  vector<int> ciudades;
-  int k;
-  archivo >> trash;
-  archivo >> k;
-  for(int i =0; i < N; i++){
-    archivo >> k;
-    ciudades.push_back(k-1);
-  }
-
-  ofstream salida("salida_suya.tour");
-  for(int i =0; i < ciudades.size(); i++){
-    city = ciudades[i];
-    salida << city << " " << coordinates[city].first << " " << coordinates[city].second << endl;
-  }
-
-  cout << "La longitud de la solución ofrecida es: " << compute_length(ciudades, cities) << endl;
-  #endif
-
-  return 0;
 }

@@ -18,7 +18,7 @@ gnuplot <<- EOF
         set xlabel "Tamaño del vector"
         set ylabel "Tiempo (seg)"
         set title "Comparativa algoritmo burbuja -O0"
-	set key left top    
+	set key left top
         set term png
 	set grid ytics xtics mytics  # draw lines for each ytics and mytics
 	set mytics 2           # set the spacing for the mytics
@@ -46,10 +46,10 @@ gnuplot <<- EOF
         set xlabel "Tamaño del vector"
         set ylabel "Tiempo (seg)"
         set title "Comparativa algoritmo de inserción -O0"
-	set key left top   
+	set key left top
 	set grid ytics xtics mytics  # draw lines for each ytics and mytics
 	set mytics 2           # set the spacing for the mytics
-	set grid               # enable the grid 
+	set grid               # enable the grid
         set term png
         set output "${outDIR}/insercion.png"
         plot ${muchos::-2}
@@ -73,10 +73,10 @@ gnuplot <<- EOF
         set xlabel "Tamaño del vector"
         set ylabel "Tiempo (seg)"
         set title "Comparativa algoritmo de selección -O0"
-	set key left top  
+	set key left top
 	set grid ytics xtics mytics  # draw lines for each ytics and mytics
 	set mytics 2           # set the spacing for the mytics
-	set grid               # enable the grid  
+	set grid               # enable the grid
         set term png
         set output "${outDIR}/seleccion.png"
         plot ${muchos::-2}
@@ -100,10 +100,10 @@ gnuplot <<- EOF
         set xlabel "Tamaño del vector"
         set ylabel "Tiempo (seg)"
         set title "Comparativa algoritmo mergesort -O0"
-	set key left top 
+	set key left top
 	set grid ytics xtics mytics  # draw lines for each ytics and mytics
 	set mytics 2           # set the spacing for the mytics
-	set grid               # enable the grid  
+	set grid               # enable the grid
         set term png
         set output "${outDIR}/mergesort.png"
         plot ${muchos::-2}
@@ -127,7 +127,7 @@ gnuplot <<- EOF
         set xlabel "Tamaño del vector"
         set ylabel "Tiempo (seg)"
         set title "Comparativa algoritmo quicksort -O0"
-	set key left top    
+	set key left top
 	set grid ytics xtics mytics  # draw lines for each ytics and mytics
 	set mytics 2           # set the spacing for the mytics
 	set grid               # enable the grid
@@ -154,10 +154,10 @@ gnuplot <<- EOF
         set xlabel "Tamaño del vector"
         set ylabel "Tiempo (seg)"
         set title "Comparativa algoritmo heapsort -O0"
-	set key left top   
+	set key left top
 	set grid ytics xtics mytics  # draw lines for each ytics and mytics
 	set mytics 2           # set the spacing for the mytics
-	set grid               # enable the grid 
+	set grid               # enable the grid
         set term png
         set output "${outDIR}/heapsort.png"
         plot ${muchos::-2}
@@ -184,7 +184,7 @@ gnuplot <<- EOF
 	set key left top
 	set grid ytics xtics mytics  # draw lines for each ytics and mytics
 	set mytics 2           # set the spacing for the mytics
-	set grid               # enable the grid    
+	set grid               # enable the grid
         set term png
         set output "${outDIR}/floyd.png"
         plot ${muchos::-2}
@@ -211,7 +211,7 @@ gnuplot <<- EOF
 	set key left top
 	set grid ytics xtics mytics  # draw lines for each ytics and mytics
 	set mytics 2           # set the spacing for the mytics
-	set grid               # enable the grid    
+	set grid               # enable the grid
         set term png
         set output "${outDIR}/hanoi.png"
         plot ${muchos::-2}
