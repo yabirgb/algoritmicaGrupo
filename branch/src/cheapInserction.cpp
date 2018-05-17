@@ -116,7 +116,7 @@ double compute_length(vector<int> path, vector<vector<double> > &cities){
   for(int i = 0; i < path.size()-1; i++){
     result += cities[path[i]][path[i+1]];
   }
-  result += cities[0][path[path.size()-1]];
+  result += cities[path[0]][path[path.size()-1]];
   return result;
 }
 
