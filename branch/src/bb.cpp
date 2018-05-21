@@ -118,7 +118,7 @@ int main(int argc, char **argv){
   string output = "salida/bb_";
   string trash;
   pair<int, vector<int> > solution; //Vector of integers representing the order of cities
-  pair<int, vector<int> > best;
+  pair<int, vector<int> > best; 
   int initial;
   double dist;
 
@@ -168,11 +168,11 @@ int main(int argc, char **argv){
   greedy(ini, best.second, cities);
   best.first = compute_length(best.second, cities);
 
-  //Start with a random node
-  srand (time(NULL));
-  initial = rand()%(N);
-
   //Algorithm
+  vector<int> aux(N,0); 
+  solution.first = 0;
+  solution.second = aux;
+  
   clock_t tStart = clock();
   //magic(solution, cities, best);
   clock_t finish = clock();
@@ -199,7 +199,10 @@ int main(int argc, char **argv){
   //Obtener el grafico de la solución en el  dataset propuesto
 
   #ifdef dev
-  ifstream archivo(argv[2]);
+  string input = "datosTSP/";
+  input += args[1] + ".opt.tour";
+
+  ifstream archivo(input);
   vector<int> ciudades;
   int k;
   archivo >> trash;
@@ -209,7 +212,7 @@ int main(int argc, char **argv){
     ciudades.push_back(k-1);
   }
 
-  ofstream salida("salida_suya.tour");
+  ofstream salida("salida/salida_suya.tour");
   for(int i =0; i < ciudades.size(); i++){
     city = ciudades[i];
     salida << city << " " << coordinates[city].first << " " << coordinates[city].second << endl;
