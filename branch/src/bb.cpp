@@ -70,12 +70,11 @@ bool visitado(int c, const vector<int> &sol){
 double sumOfMinOfEachRow(vector<int> &candidates, vector<vector<double> > &cities){
 
   double result = 0;
-
   double row_min = numeric_limits<int>::max();
 
   for(int i = 0; i < cities.size(); i++){
   	if(!visitado(i,candidates)){
-		for(int j = i; j < cities.size(); j++){
+		for(int j = i+1; j < cities.size(); j++){
 		  if(cities[i][j] < row_min){
 			row_min = cities[i][j];
 		  }
@@ -100,7 +99,7 @@ double sumOfMinOfEachRow(vector<vector<double> > &cities){
 //This could be a dog
 struct Comparator
 {
-  bool operator() (const pair<double, int> &p1, const pair<double, int> &p2 ) const {
+  bool operator() (const pair<double, vector<int> > &p1, const pair<double, vector<int> > &p2 ) const {
     return p1.first < p2.first;
   }
 };
@@ -109,43 +108,36 @@ struct Comparator
 // Actual code
 //============================
 
-void magic(int pos, pair<double, vector<int> > solution, vector<vector<double> > &cities, pair<double, vector<int> > &best){
+void magic(priority_queue<Comparator, vector<pair<double, vector<int> > > > &alives, vector<vector<double> > &cities, pair<double, vector<int> > &best){
 
   //Priority queue that contains our nodes
   //The first coordinate is the possible cost of the path and the second
   //is the actual path
-  priority_queue<Comparator, vector<pair<double, int> > > alives; //I think this is how it should be
-  double local_length = 0;
-  pair<double, int> aux;  
   
-  if(pos<solution.second.size()){
-	  for (int i=1; i<solution.second.size(); i++){
-	  	if(!visitado(i,solution.second)){
-	  		local_length = solution.first + cities[i][solution.second[pos-1]];
-	  		solution.second[pos] = i;
-	  		if(local_length + sumOfMinOfEachRow(solution.second, cities) < best.first){
-		  		aux.second = i;
-		  		aux.first = local_length;
-	  			alives.push(aux);
-	  		}
-	  	}
-	  }
-	  while(!alives.empty()){
-	  	if(alives.top().first + sumOfMinOfEachRow(solution.second, cities)< best.first){
-	  		solution.second[pos] = alives.top().second;
-	  		solution.first = alives.top().first;
-	  		magic(pos+1, solution, cities, best);
-	  	}
-	  	alives.pop();
-	  }
-  }else{
-  	local_length = solution.first + cities[solution.second[pos-1]][solution.second[0]];
-  	if(local_length < best.first){
-	  cout << local_length << " " << best.first <<endl;
-	  best = solution;
-	  best.first = local_length;
-	}
-  }  
+ pair<double, vector<int> > solution = alives.top();
+ alives.pop();
+ pair<double, vector<int> > aux;
+ double local_length = solution.first + cities[solution.second[solution.second.size()-1]][solution.second[0]];
+  
+  if(local_length < best.first){
+	  if(solution.second.size() < cities.size()){
+		  for (int i=1; i<cities.size(); i++){
+		  	if(!visitado(i,solution.second)){
+		  		local_length = solution.first + cities[i][solution.second[solution.second.size()-1]];
+		  		aux.second = solution.second;
+		  		aux.second.push_back(i);
+		  		if(local_length + sumOfMinOfEachRow(aux.second, cities) < best.first){
+			  		aux.first = local_length;
+		  			alives.push(aux);
+		  		}
+		  	}
+		  }
+	  }else{
+	  	  cout << local_length << " " << best.first <<endl;
+		  best = solution;
+		  best.first = local_length;
+	  } 
+  } 
 }
 
 
@@ -210,21 +202,26 @@ int main(int argc, char **argv){
   best.first = compute_length(best.second, cities);
 
   //Algorithm
+  priority_queue<Comparator, vector<pair<double, vector<int> > > > alives; //I think this is how it should be
+  alives.push({0,{0}});
   vector<int> aux(N,0); 
   solution.first = 0;
   solution.second = aux;
   
   printVector(best.second);
   cout << best.first <<endl;
+  
   clock_t tStart = clock();
-  magic(1, solution, cities, best);
+  while(!alives.empty()){
+  	magic(alives, cities, best);
+  }
   clock_t finish = clock();
 
   #ifdef dev
   cout << "Ciudades: ";
   printVector(best.second);
   cout << " Total: " << best.second.size() << endl;
-  cout << "Total distance: " << best.first << endl;
+  cout << "Total distance: " << compute_length(best.second, cities) << endl;
   #endif
 
   #ifdef prod
