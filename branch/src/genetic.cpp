@@ -13,9 +13,9 @@ using namespace std;
 
 int MAX = 100;
 vector< vector< int> > afinidades;
-vector< vector< int> > aversiones;
+vector< vector< double> > cities;
 
-void GenerarAfinidadesAversiones(int n_comensales, int seed) {
+/*void GenerarAfinidadesAversiones(int n_comensales, int seed) {
   srand(12345678 * seed);
   vector< vector<int> > m (n_comensales, vector<int>(n_comensales, 0));
   aversiones = m;
@@ -36,7 +36,7 @@ void GenerarAfinidadesAversiones(int n_comensales, int seed) {
   }
 
   afinidades = m;
-}
+}*/
 
 void printMatrix(vector<vector<int> > &matrix){
   for(int i=0; i < matrix.size(); i++){
@@ -65,7 +65,7 @@ double distance(pair<double, double> c1, pair<double, double> c2){
   return hypot(c2.first - c1.first, c2.second - c1.second);
 }
 
-double evaluate(vector<int> &v, const vector<vector<int> > &m){
+double evaluate(vector<int> &v, const vector<vector<double> > &m){
   double result = 0;
   for(int i = 0; i < v.size()-1; i++){
     result += m[v[i]][v[i+1]];
@@ -203,10 +203,9 @@ void ApplyMutation(vector<gen*> &population, double prob) {
 }
 
 // Evaluates the population and saves the best solution found
-void EvaluatePopulation (vector<gen*> &population, gen &best_gen,
-      const vector<vector<int> > &aversiones ) {
+void EvaluatePopulation (vector<gen*> &population, gen &best_gen, const vector<vector<double> > &cities ) {
   for (int i=0; i<population.size(); i++) {
-    population[i]->f_eval = evaluate(population[i]->v, aversiones);
+    population[i]->f_eval = evaluate(population[i]->v, cities);
     if (population[i]->f_eval < best_gen.f_eval) {
       best_gen = *population[i];
     }
@@ -222,25 +221,24 @@ void ReplaceGeneration(vector<gen*> &population, vector<gen*> &new_generation) {
   }
 }
 
-void PrintPop(vector<gen*> &pop) {
+/*void PrintPop(vector<gen*> &pop) {
   for (int i=0; i<pop.size(); i++) {
     cout << "Element " << i << endl;
     printVector(pop[i]->v);
   }
-}
+}*/
 
-double AvFitness (vector<gen*> &population,
-      const vector<vector<int> > &aversiones ) {
+double AvFitness (vector<gen*> &population, const vector<vector<double> > &cities ) {
   double total_f = 0;
   for (int i=0; i<population.size(); i++) {
-    total_f += evaluate(population[i]->v, aversiones);
+    total_f += evaluate(population[i]->v, cities);
   }
   return total_f / population.size();
 }
 
-double genetic(vector<int> &solution, const vector<vector<int> > &aversiones){
+double genetic(vector<int> &solution, const vector<vector<double> > &cities){
   int pob_size = 500, n_generations = 200;
-  int n_comen = aversiones.size();
+  int n_comen = cities.size();
   double mutate_propability = 0.05;
   double initial_pop_av_fit;
 
@@ -253,7 +251,7 @@ double genetic(vector<int> &solution, const vector<vector<int> > &aversiones){
   // Initialize the population and evaluate it
   InitializePopulation(population, pob_size, n_comen);
   best_gen_ever.f_eval = numeric_limits<int>::max();
-  EvaluatePopulation(population, best_gen_ever, aversiones);
+  EvaluatePopulation(population, best_gen_ever, cities);
 
   //PrintPop(population);
 
@@ -265,7 +263,7 @@ double genetic(vector<int> &solution, const vector<vector<int> > &aversiones){
     ApplyMutation(new_generation, mutate_propability);
 
     // Evaluate the new population and save the best solution found
-    EvaluatePopulation(new_generation, best_gen_ever, aversiones);
+    EvaluatePopulation(new_generation, best_gen_ever, cities);
 
     // Replace the old population with the new one
     ReplaceGeneration(population, new_generation);
@@ -277,21 +275,22 @@ double genetic(vector<int> &solution, const vector<vector<int> > &aversiones){
   // Return the solution
   solution = best_gen_ever.v;
 
-  return best_gen_ever;
+  return best_gen_ever.f_eval;
 }
 
-int main(int argc, char **argv){
+/*int main(int argc, char **argv){
   if(argc != 2){
     cerr << "Ejecución: ./" << argv[0] << " <max_n_comensales>" << endl;
     return 1;
   }
-
+	
+  vector<vector<int> > cities;
   int max_n_comensales = atoi(argv[1]);
 
   GenerarAfinidadesAversiones(n_comen, j);
   // Al genetico le pasamos el vector para almacenar la solucion y la matriz sobre la que operamos.
   // Devuelve el fitness del elemento
-  double resultado_vota_increible = genetic(result, aversiones);
+  double resultado_vota_increible = genetic(result, cities);
 
 
 
@@ -332,4 +331,4 @@ int main(int argc, char **argv){
     printVector(result);
     cout << "Con aversión: " << evaluate(result, aversiones) << endl;
   }
-}
+}*/
