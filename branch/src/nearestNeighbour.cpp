@@ -24,7 +24,7 @@ void printMatrix(vector<vector<double> > &matrix){
 }
 
 template <typename T>
-void printVector(vector<T> &v){
+void printVector(const vector<T> &v){
 
   cout << "vector = [";
   for(int i =0; i < v.size()-1; i++){
@@ -37,7 +37,7 @@ void printVector(vector<T> &v){
 }
 
 
-double distance(pair<double, double> c1, pair<double, double> c2){
+double distance(pair<double, double> &c1, pair<double, double> &c2){
   return hypot(c2.first - c1.first, c2.second - c1.second);
 }
 
@@ -74,13 +74,17 @@ void greedy(vector<int> &ini, vector<int> &res, vector<vector<double> > &matrix)
   }
 }
 
-double compute_length(vector<int> &path, vector<vector<double> > &cities){
+double compute_length(const vector<int> &path, vector<vector<double> > &cities, int max){
   double result = 0;
-  for(int i = 0; i < path.size()-1; i++){
+  for(int i = 0; i < max-1; i++){
     result += cities[path[i]][path[i+1]];
   }
   result += cities[path[0]][path[path.size()-1]];
   return result;
+}
+
+double compute_length(const vector<int> &path, vector<vector<double> > &cities){
+  return compute_length(path, cities, path.size());
 }
 
 /*int main(int argc, char **argv){

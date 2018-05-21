@@ -12,7 +12,7 @@
 //#include "genetic.cpp"
 #include "nearestNeighbour.cpp"
 
-//#define dev 
+#define dev 
 
 using namespace std;
 
@@ -57,25 +57,41 @@ double distance(pair<double, double> &c1, pair<double, double> &c2){
   return result;
 }*/
 
+bool visitado(int c, const vector<int> &sol){
+	for(int i=0; i<sol.size(); i++){
+		if(sol[i]==c){
+			return true;
+		}
+	}
+	return false;
+}
+
 //Get the sum of the minimum values of each row
-double sumOfMinOfEachRow(vector<vector<double> > &cities){
+double sumOfMinOfEachRow(vector<int> &candidates, vector<vector<double> > &cities){
 
   double result = 0;
 
   double row_min = numeric_limits<int>::max();
 
   for(int i = 0; i < cities.size(); i++){
-    for(int j = 0; j < cities.size(); j++){
-      if(cities[i][j] < row_min){
-	row_min = cities[i][j];
-      }
-    }
+  	if(!visitado(i,candidates)){
+		for(int j = i; j < cities.size(); j++){
+		  if(cities[i][j] < row_min){
+			row_min = cities[i][j];
+		  }
+		}
 
-    result += row_min;
-    row_min = numeric_limits<int>::max();
+		result += row_min;
+		row_min = numeric_limits<int>::max();
+    }
   }
 
   return result;
+
+}
+
+double sumOfMinOfEachRow(vector<vector<double> > &cities){
+	return sumOfMinOfEachRow(*(new vector<int>()), cities);
 
 }
 
@@ -84,27 +100,52 @@ double sumOfMinOfEachRow(vector<vector<double> > &cities){
 //This could be a dog
 struct Comparator
 {
-  bool operator() (const pair<int, vector<int> > &p1, const pair<int, vector<int> > &p2 ) const {
+  bool operator() (const pair<double, int> &p1, const pair<double, int> &p2 ) const {
     return p1.first < p2.first;
   }
 };
-
-
 
 //============================
 // Actual code
 //============================
 
-void magic(pair<int, vector<int> > solution, vector<vector<double> > &cities, pair<int, vector<int> > &best){
+void magic(int pos, pair<double, vector<int> > solution, vector<vector<double> > &cities, pair<double, vector<int> > &best){
 
   //Priority queue that contains our nodes
   //The first coordinate is the possible cost of the path and the second
   //is the actual path
-  priority_queue<Comparator, vector<pair<int, vector<int> > > > alives; //I think this is how it should be
-  int minimum_cost = numeric_limits<int>::max();
-
+  priority_queue<Comparator, vector<pair<double, int> > > alives; //I think this is how it should be
+  double local_length = 0;
+  pair<double, int> aux;  
   
-  
+  if(pos<solution.second.size()){
+	  for (int i=1; i<solution.second.size(); i++){
+	  	if(!visitado(i,solution.second)){
+	  		local_length = solution.first + cities[i][solution.second[pos-1]];
+	  		solution.second[pos] = i;
+	  		if(local_length + sumOfMinOfEachRow(solution.second, cities) < best.first){
+		  		aux.second = i;
+		  		aux.first = local_length;
+	  			alives.push(aux);
+	  		}
+	  	}
+	  }
+	  while(!alives.empty()){
+	  	if(alives.top().first + sumOfMinOfEachRow(solution.second, cities)< best.first){
+	  		solution.second[pos] = alives.top().second;
+	  		solution.first = alives.top().first;
+	  		magic(pos+1, solution, cities, best);
+	  	}
+	  	alives.pop();
+	  }
+  }else{
+  	local_length = solution.first + cities[solution.second[pos-1]][solution.second[0]];
+  	if(local_length < best.first){
+	  cout << local_length << " " << best.first <<endl;
+	  best = solution;
+	  best.first = local_length;
+	}
+  }  
 }
 
 
@@ -117,8 +158,8 @@ int main(int argc, char **argv){
   string filename; //File that contains the input data;
   string output = "salida/bb_";
   string trash;
-  pair<int, vector<int> > solution; //Vector of integers representing the order of cities
-  pair<int, vector<int> > best; 
+  pair<double, vector<int> > solution; //Vector of integers representing the order of cities
+  pair<double, vector<int> > best; 
   int initial;
   double dist;
 
@@ -173,8 +214,10 @@ int main(int argc, char **argv){
   solution.first = 0;
   solution.second = aux;
   
+  printVector(best.second);
+  cout << best.first <<endl;
   clock_t tStart = clock();
-  //magic(solution, cities, best);
+  magic(1, solution, cities, best);
   clock_t finish = clock();
 
   #ifdef dev
