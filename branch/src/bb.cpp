@@ -9,7 +9,8 @@
 #include <fstream>
 #include <stdlib.h>
 #include <time.h>
-#include "genetic.cpp"
+//#include "genetic.cpp"
+#include "nearestNeighbour.cpp"
 
 //#define dev 
 
@@ -47,14 +48,14 @@ double distance(pair<double, double> &c1, pair<double, double> &c2){
 
 //Compute length given a path. Takes 2 arguments, the path and the matrix
 //with the distance between cities
-double compute_length(vector<int> &path, vector<vector<double> > &cities){
+/*double compute_length(vector<int> &path, vector<vector<double> > &cities){
   double result = 0;
   for(int i = 0; i < path.size()-1; i++){
     result += cities[path[i]][path[i+1]];
   }
   result += cities[path[0]][path[path.size()-1]];
   return result;
-}
+}*/
 
 //Get the sum of the minimum values of each row
 double sumOfMinOfEachRow(vector<vector<double> > &cities){
@@ -159,7 +160,13 @@ int main(int argc, char **argv){
   }
   
   //Use genetic
-  best.first = genetic(best.second, cities);
+  //best.first = genetic(best.second, cities);
+  vector<int> ini;
+  for(int i=0; i<N; i++){
+  	ini.push_back(i);
+  }
+  greedy(ini, best.second, cities);
+  best.first = compute_length(best.second, cities);
 
   //Start with a random node
   srand (time(NULL));
