@@ -10,9 +10,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include "genetic.cpp"
-#include "nearestNeighbour.cpp"
+//#include "nearestNeighbour.cpp"
 
-#define dev
+#define prod 
 
 using namespace std;
 
@@ -40,11 +40,11 @@ void printVector(vector<T> &v){
 
   cout << "]";
 }
-*/
+
 //Calculate the distance between two nodes
-double distanceEq(pair<double, double> &c1, pair<double, double> &c2){
+double distance(pair<double, double> &c1, pair<double, double> &c2){
   return hypot(c2.first - c1.first, c2.second - c1.second);
-}
+}*/
 
 //Compute length given a path. Takes 2 arguments, the path and the matrix
 //with the distance between cities
@@ -66,13 +66,13 @@ bool visitado(int c, const vector<int> &sol){
 	return false;
 }
 
-//Get the sum of the minimum values of each row
-double sumOfMinOfEachRow(vector<int> &candidates, vector<vector<double> > &cities){
+//Get the sum of the minimum values of each not-used row
+double estimacion(vector<int> &candidates, vector<vector<double> > &cities){
 
   double result = 0;
   double row_min = numeric_limits<int>::max();
 
-  for(int i = 0; i < cities.size(); i++){
+  for(int i = 0; i < cities.size()-1; i++){
   	if(!visitado(i,candidates)){
 		for(int j = i+1; j < cities.size(); j++){
 		  if(cities[i][j] < row_min){
@@ -89,8 +89,9 @@ double sumOfMinOfEachRow(vector<int> &candidates, vector<vector<double> > &citie
 
 }
 
-double sumOfMinOfEachRow(vector<vector<double> > &cities){
-	return sumOfMinOfEachRow(*(new vector<int>()), cities);
+//Get the sum of the minimum values of each row
+double estimacion(vector<vector<double> > &cities){
+	return estimacion(*(new vector<int>()), cities);
 
 }
 
@@ -104,6 +105,30 @@ struct Comparator
   }
 };
 
+int farthest(vector<pair<double, double> > &coordinates){
+  pair<double,double> centro(0,0);
+  double dist, max = 0;
+  int mejor = 0;
+
+  for(int i = 0; i < coordinates.size(); i++){
+	centro.first += coordinates[i].first;
+	centro.second += coordinates[i].second;
+  }
+  
+  centro.first /= coordinates.size();
+  centro.second /= coordinates.size();
+  
+  for(int i = 0; i < coordinates.size(); i++){
+     dist = distance(coordinates[i], centro);
+     if(dist > max){
+     	max = dist;
+     	mejor = i;
+     }
+  }
+
+  return mejor;
+}
+
 //============================
 // Actual code
 //============================
@@ -113,57 +138,60 @@ void magic(priority_queue<Comparator, vector<pair<double, vector<int> > > > &ali
   //Priority queue that contains our nodes
   //The first coordinate is the possible cost of the path and the second
   //is the actual path
-
- pair<double, vector<int> > solution = alives.top();
- alives.pop();
- pair<double, vector<int> > aux;
- double local_length = solution.first + cities[solution.second[solution.second.size()-1]][solution.second[0]];
-
-  if(local_length < best.first){
-	  if(solution.second.size() < cities.size()){
-		  for (int i=1; i<cities.size(); i++){
+  
+ pair<double, vector<int> > solution = alives.top();	//Toma el primero de la cola
+ double local_length = solution.first;					//Guardamos la distancia actual recorrida
+ alives.pop(); 											//Quitamos el elemento de la cima
+ 
+  if(solution.second.size() == cities.size()){			//Si es una hoja, le añade el último arco (hacia el inicio)
+  	local_length += cities[solution.second[solution.second.size()-1]][solution.second[0]];
+  }
+  
+  if(local_length < best.first){					//Si sobrepasa la cota se poda el nodo (se ignora)
+	  if(solution.second.size() < cities.size()){	// Si no es una hoja, desarrolla los nodos hijos (si 
+		  for (int i=1; i<cities.size(); i++){		//tienen una estimación válida)
 		  	if(!visitado(i,solution.second)){
-		  		local_length = solution.first + cities[i][solution.second[solution.second.size()-1]];
-		  		aux.second = solution.second;
+		  		pair<double, vector<int> > aux(solution);
+		  		local_length = aux.first + cities[i][aux.second[aux.second.size()-1]];
+			  	aux.first = local_length;
 		  		aux.second.push_back(i);
-		  		if(local_length + sumOfMinOfEachRow(aux.second, cities) < best.first){
+		  		
+		  		if(local_length + estimacion(aux.second, cities) < best.first){	//Comprueba si merece la pena explorarlo
 			  		aux.first = local_length;
 		  			alives.push(aux);
 		  		}
 		  	}
 		  }
-	  }else{
+	  }else{										//Si es una hoja, reemplaza la mejor solución
+	  	  ///////////////Comprobación temporal//////////////////
 	  	  cout << local_length << " " << best.first <<endl;
+	  	  //////////////////////////////////////////////////////
 		  best = solution;
 		  best.first = local_length;
-	  }
-  }
+	  } 
+  } 
 }
 
 
 int main(int argc, char **argv){
 
   int N; //Total number of cities
-  double x, y; //Variables for data imput
   int n; //Positional argument in input data
-  int next_node;
-  string filename; //File that contains the input data;
-  string output = "salida/bb_";
-  string trash;
-  pair<double, vector<int> > solution; //Vector of integers representing the order of cities
-  pair<double, vector<int> > best;
-  int initial;
+  int next_node, initial;
+  double x, y; //Variables for data imput
   double dist;
-
-  std::vector<std::string> args;
-  std::copy(argv + 1, argv + argc, std::back_inserter(args));
-
-  output += args[1] + ".tour";
+  string trash, filename, output = "salida/bb_";
+  pair<double, vector<int> > solution; //Vector of integers representing the order of cities
+  pair<double, vector<int> > best;	//Best solution
 
   if(argc > 3){
     cerr << "Error in the number of arguments" << endl;
     return 1;
   }
+  
+  vector<string> args;
+  copy(argv + 1, argv + argc, back_inserter(args));
+  output += args[1] + ".tour";
 
   //Open the file
   filename = argv[1];
@@ -171,8 +199,7 @@ int main(int argc, char **argv){
   data >> trash;
   data >> N; //First line is always the cardinal of cities
 
-  //Create a vector of 3-uplas
-
+  //Create a vector of pairs
   vector<pair<double, double> > coordinates;
 
   //Create an square matrix
@@ -186,15 +213,16 @@ int main(int argc, char **argv){
 
   for(int i = 0; i < N; i++){
     for(int j = 0; j < i; j++){
-      dist = distanceEq(coordinates[i], coordinates[j]);
+      dist = distance(coordinates[i], coordinates[j]);
       cities[i][j] = dist;
       cities[j][i] = cities[i][j];
     }
   }
-
+  
   //Use genetic
   best.first = genetic(best.second, cities);
 	cout << "Longitud: " << best.first << endl;
+  //Use greedy
   /*vector<int> ini;
   for(int i=0; i<N; i++){
   	ini.push_back(i);
@@ -203,32 +231,34 @@ int main(int argc, char **argv){
   best.first = compute_length(best.second, cities);*/
 
   //Algorithm
-  priority_queue<Comparator, vector<pair<double, vector<int> > > > alives; //I think this is how it should be
-  alives.push({0,{0}});
-  vector<int> aux(N,0);
+  priority_queue<Comparator, vector<pair<double, vector<int> > > > alives;	//Creates the priority queue
+  alives.push({farthest(coordinates),{0}});
+  vector<int> aux(N,0); 
   solution.first = 0;
   solution.second = aux;
-
-  printVector(best.second);
-  cout << best.first <<endl;
-
+  
+  //Execution
   clock_t tStart = clock();
   while(!alives.empty()){
   	magic(alives, cities, best);
   }
   clock_t finish = clock();
+  //
 
+  //Shows some development data
   #ifdef dev
   cout << "Ciudades: ";
   printVector(best.second);
   cout << " Total: " << best.second.size() << endl;
   cout << "Total distance: " << compute_length(best.second, cities) << endl;
   #endif
-
+  
+  //Shows the execution time
   #ifdef prod
-  cout << best.first << "\t" << ((double)finish - tStart)/CLOCKS_PER_SEC << endl;
+  cout << best.first << "\t" << ((double)finish - tStart)/CLOCKS_PER_SEC << endl;	//Shows the execution time
   #endif
 
+  //Creates the output file
   ofstream out(output);
   int city;
   for(int i =0; i < best.second.size(); i++){
@@ -238,7 +268,6 @@ int main(int argc, char **argv){
 
 
   //Obtener el grafico de la solución en el  dataset propuesto
-
   #ifdef dev
   string input = "datosTSP/";
   input += args[1] + ".opt.tour";
@@ -258,9 +287,9 @@ int main(int argc, char **argv){
     city = ciudades[i];
     salida << city << " " << coordinates[city].first << " " << coordinates[city].second << endl;
   }
-
-
-  cout << "La longitud de la solución (supuestamente) óptima es: " << compute_length(ciudades, cities) << endl;
+  
+  
+  cout << "La longitud de la solución ofrecida es: " << compute_length(ciudades, cities) << endl;
   cout << "Solución ofrecida: ";
   printVector(ciudades);
   cout << endl;

@@ -2,14 +2,6 @@ all:
 	g++ -o bin/bb src/bb.cpp -std=c++11 -O2
 #	g++ -o bin/cena src/cena.cpp -std=c++11 -O2
 
-run:
-	./bin/bb datosTSP/ulysses22.tsp ulysses22
-	./plot.sh bb ulysses22
-
-val:
-	g++ -o bin/bb src/bb.cpp -std=c++11 -O2 -g
-	valgrind --leak-check=full ./bin/bb datosTSP/ulysses16.tsp ulysses16
-
 ulysses16:
 	./bin/bb datosTSP/ulysses16.tsp ulysses16
 	./plot.sh bb ulysses16
@@ -17,6 +9,19 @@ ulysses16:
 ulysses22:
 	./bin/bb datosTSP/ulysses22.tsp ulysses22
 	./plot.sh bb ulysses22
+	
+random16:
+	./bin/bb aleatorios/aleatorio16.tsp aleatorio16
+	./plot.sh bb aleatorio16
+	
+random22:
+	./bin/bb aleatorios/aleatorio22.tsp aleatorio22
+	./plot.sh bb aleatorio22
+	
+val:
+	g++ -o bin/bb src/bb.cpp -std=c++11 -O2 -g
+	valgrind --leak-check=full ./bin/bb datosTSP/ulysses16.tsp ulysses16
+	
 
 #pdf:
 #	pdflatex report/main.tex
