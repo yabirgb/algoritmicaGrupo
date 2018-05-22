@@ -6,6 +6,10 @@ run:
 	./bin/bb datosTSP/ulysses16.tsp ulysses16
 	./plot.sh bb ulysses16
 	
+random:
+	./bin/bb aleatorios/aleatorio16.tsp aleatorio16
+	./plot.sh bb aleatorio16
+	
 val:
 	g++ -o bin/bb src/bb.cpp -std=c++11 -O2 -g
 	valgrind --leak-check=full ./bin/bb datosTSP/ulysses16.tsp ulysses16
