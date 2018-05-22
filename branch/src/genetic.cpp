@@ -237,7 +237,7 @@ double AvFitness (vector<gen*> &population, const vector<vector<double> > &citie
 }
 
 double genetic(vector<int> &solution, const vector<vector<double> > &cities){
-  int pob_size = 500, n_generations = 200;
+  int pob_size = 1000, n_generations = 800;
   int n_comen = cities.size();
   double mutate_propability = 0.05;
   double initial_pop_av_fit;
@@ -283,7 +283,7 @@ double genetic(vector<int> &solution, const vector<vector<double> > &cities){
     cerr << "Ejecución: ./" << argv[0] << " <max_n_comensales>" << endl;
     return 1;
   }
-	
+
   vector<vector<int> > cities;
   int max_n_comensales = atoi(argv[1]);
 
