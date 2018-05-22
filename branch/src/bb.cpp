@@ -16,47 +16,6 @@
 
 using namespace std;
 
-//============================
-// Auxiliar Functions
-//============================
-/*void printMatrix(vector<vector<double> > &matrix){
-  for(int i=0; i < matrix.size(); i++){
-    for(int j=0; j < matrix[i].size(); j++){
-      printf("%.4f ", matrix[i][j]);
-    }
-    cout << endl;
-  }
-}
-
-template <typename T>
-void printVector(vector<T> &v){
-
-  cout << "[";
-  for(int i =0; i < v.size()-1; i++){
-    cout << v[i] << ",";
-  }
-
-  cout << v[v.size()-1];
-
-  cout << "]";
-}
-
-//Calculate the distance between two nodes
-double distance(pair<double, double> &c1, pair<double, double> &c2){
-  return hypot(c2.first - c1.first, c2.second - c1.second);
-}*/
-
-//Compute length given a path. Takes 2 arguments, the path and the matrix
-//with the distance between cities
-/*double compute_length(vector<int> &path, vector<vector<double> > &cities){
-  double result = 0;
-  for(int i = 0; i < path.size()-1; i++){
-    result += cities[path[i]][path[i+1]];
-  }
-  result += cities[path[0]][path[path.size()-1]];
-  return result;
-}*/
-
 bool visitado(int c, const vector<int> &sol){
 	for(int i=0; i<sol.size(); i++){
 		if(sol[i]==c){
@@ -66,22 +25,25 @@ bool visitado(int c, const vector<int> &sol){
 	return false;
 }
 
+double rowMin(int i, vector<double> &row){
+	double row_min = numeric_limits<int>::max();
+	for(int j=i+1; j < row.size(); j++){
+		  if(row[j] < row_min){
+			row_min = row[j];
+		  }
+	}
+	return row_min;
+}
+
 //Get the sum of the minimum values of each not-used row
 double estimacion(vector<int> &candidates, vector<vector<double> > &cities){
 
   double result = 0;
-  double row_min = numeric_limits<int>::max();
+  double row_min;
 
   for(int i = 0; i < cities.size()-1; i++){
   	if(!visitado(i,candidates)){
-		for(int j = i+1; j < cities.size(); j++){
-		  if(cities[i][j] < row_min){
-			row_min = cities[i][j];
-		  }
-		}
-
-		result += row_min;
-		row_min = numeric_limits<int>::max();
+		result += rowMin(i, cities[i]);
     }
   }
 
@@ -139,32 +101,38 @@ void magic(priority_queue<Comparator, vector<pair<double, vector<int> > > > &ali
   //The first coordinate is the possible cost of the path and the second
   //is the actual path
   
- pair<double, vector<int> > solution = alives.top();	//Toma el primero de la cola
- double local_length = solution.first;					//Guardamos la distancia actual recorrida
+ pair<double, vector<int> > aux, solution = alives.top();	//Toma el primero de la cola
+ double min, diferencia, local_length = solution.first;					//Guardamos la distancia actual recorrida
  alives.pop(); 											//Quitamos el elemento de la cima
  
   if(solution.second.size() == cities.size()){			//Si es una hoja, le añade el último arco (hacia el inicio)
   	local_length += cities[solution.second[solution.second.size()-1]][solution.second[0]];
+  }else{
+  	min = estimacion(solution.second, cities);
   }
   
   if(local_length < best.first){					//Si sobrepasa la cota se poda el nodo (se ignora)
-	  if(solution.second.size() < cities.size()){	// Si no es una hoja, desarrolla los nodos hijos (si 
-		  for (int i=1; i<cities.size(); i++){		//tienen una estimación válida)
+	  if(solution.second.size() < cities.size()){			// Si no es una hoja, desarrolla los nodos hijos (si 
+	  	  solution.second.push_back(solution.second[0]);    //tienen una estimación válida)
+		  for (int i=0; i<cities.size(); i++){		
 		  	if(!visitado(i,solution.second)){
-		  		pair<double, vector<int> > aux(solution);
-		  		local_length = aux.first + cities[i][aux.second[aux.second.size()-1]];
+		  		solution.second[solution.second.size()-1] = i;
+		  		local_length = solution.first + cities[i][solution.second[solution.second.size()-2]];
 			  	aux.first = local_length;
-		  		aux.second.push_back(i);
 		  		
-		  		if(local_length + estimacion(aux.second, cities) < best.first){	//Comprueba si merece la pena explorarlo
-			  		aux.first = local_length;
+		  		diferencia = rowMin(i, cities[i]);		//Se simplifica el cálculo de la estimación
+		  		min -= diferencia;
+		  		if(local_length + min < best.first){	//Comprueba si merece la pena explorarlo
+			  		aux.second = solution.second;
 		  			alives.push(aux);
 		  		}
+		  		min += diferencia;
 		  	}
 		  }
+		  solution.second.pop_back();
 	  }else{										//Si es una hoja, reemplaza la mejor solución
 	  	  ///////////////Comprobación temporal//////////////////
-	  	  cout << local_length << " " << best.first <<endl;
+	  	  //cout << local_length << " " << best.first <<endl;
 	  	  //////////////////////////////////////////////////////
 		  best = solution;
 		  best.first = local_length;
@@ -232,7 +200,7 @@ int main(int argc, char **argv){
 
   //Algorithm
   priority_queue<Comparator, vector<pair<double, vector<int> > > > alives;	//Creates the priority queue
-  alives.push({farthest(coordinates),{0}});
+  alives.push({0,{farthest(coordinates)}});
   vector<int> aux(N,0); 
   solution.first = 0;
   solution.second = aux;
