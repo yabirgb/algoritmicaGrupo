@@ -16,6 +16,15 @@
 
 using namespace std;
 
+double compute_length(const vector<int> &path, vector<vector<double> > &cities, int max){
+  double result = 0;
+  for(int i = 0; i < max-1; i++){
+    result += cities[path[i]][path[i+1]];
+  }
+  result += cities[path[0]][path[max-1]];
+  return result;
+}
+
 bool visitado(int c, const vector<int> &sol){
 	for(int i=0; i<sol.size(); i++){
 		if(sol[i]==c){
@@ -102,27 +111,31 @@ void magic(priority_queue<Comparator, vector<pair<double, vector<int> > > > &ali
   //is the actual path
   
  pair<double, vector<int> > aux, solution = alives.top();	//Toma el primero de la cola
- double min, diferencia, local_length = solution.first;					//Guardamos la distancia actual recorrida
+ double diferencia, local_length, length = compute_length(solution.second, cities , solution.second.size());	//Guardamos la distancia actual recorrida
+ double min=0;
  alives.pop(); 											//Quitamos el elemento de la cima
  
-  if(solution.second.size() == cities.size()){			//Si es una hoja, le añade el último arco (hacia el inicio)
-  	local_length += cities[solution.second[solution.second.size()-1]][solution.second[0]];
-  }else{
+  if(solution.second.size() < cities.size()){			//Si es una hoja, le añade el último arco (hacia el inicio)
   	min = estimacion(solution.second, cities);
+  	length -= cities[solution.second[0]][solution.second[solution.second.size()-1]];
   }
   
-  if(local_length < best.first){					//Si sobrepasa la cota se poda el nodo (se ignora)
+  if(length + min < best.first){					//Si sobrepasa la cota se poda el nodo (se ignora)
 	  if(solution.second.size() < cities.size()){			// Si no es una hoja, desarrolla los nodos hijos (si 
 	  	  solution.second.push_back(solution.second[0]);    //tienen una estimación válida)
 		  for (int i=0; i<cities.size(); i++){		
 		  	if(!visitado(i,solution.second)){
 		  		solution.second[solution.second.size()-1] = i;
-		  		local_length = solution.first + cities[i][solution.second[solution.second.size()-2]];
-			  	aux.first = local_length;
+		  		local_length = length + cities[i][solution.second[solution.second.size()-2]];
 		  		
-		  		diferencia = rowMin(i, cities[i]);		//Se simplifica el cálculo de la estimación
+		  		diferencia = 0;
+		  		if(i<cities.size()-1)
+		  			diferencia = rowMin(i, cities[i]);		//Se simplifica el cálculo de la estimación
+		  			
 		  		min -= diferencia;
-		  		if(local_length + min < best.first){	//Comprueba si merece la pena explorarlo
+		  		local_length += min;
+		  		if(local_length < best.first){	//Comprueba si merece la pena explorarlo
+			  		aux.first = local_length;
 			  		aux.second = solution.second;
 		  			alives.push(aux);
 		  		}
@@ -132,10 +145,10 @@ void magic(priority_queue<Comparator, vector<pair<double, vector<int> > > > &ali
 		  solution.second.pop_back();
 	  }else{										//Si es una hoja, reemplaza la mejor solución
 	  	  ///////////////Comprobación temporal//////////////////
-	  	  //cout << local_length << " " << best.first <<endl;
+	  	  //cout << length << " " << best.first <<endl;
 	  	  //////////////////////////////////////////////////////
 		  best = solution;
-		  best.first = local_length;
+		  best.first = length;
 	  } 
   } 
 }
@@ -200,7 +213,8 @@ int main(int argc, char **argv){
 
   //Algorithm
   priority_queue<Comparator, vector<pair<double, vector<int> > > > alives;	//Creates the priority queue
-  alives.push({0,{farthest(coordinates)}});
+  vector<int> lejano = {farthest(coordinates)};
+  alives.push({estimacion(lejano, cities),lejano});
   vector<int> aux(N,0); 
   solution.first = 0;
   solution.second = aux;
