@@ -189,7 +189,7 @@ int main(int argc, char **argv){
   
   //Use genetic
   best.first = genetic(best.second, cities);
-	cout << "Longitud: " << best.first << endl;
+  //cout << "Longitud: " << best.first << endl;
   //Use greedy
   /*vector<int> ini;
   for(int i=0; i<N; i++){
@@ -214,7 +214,7 @@ int main(int argc, char **argv){
   clock_t finish = clock();
   //
   
-  cout << "Nodos recorridos: " << nodos_recorridos <<endl;
+  //cout << "Nodos recorridos: " << nodos_recorridos <<endl;
 
   //Shows some development data
   #ifdef dev

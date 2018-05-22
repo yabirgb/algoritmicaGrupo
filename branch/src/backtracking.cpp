@@ -8,6 +8,8 @@
 #include <time.h>
 #include "genetic.cpp"
 
+#define prod
+
 double compute_length(vector<int> path, vector<vector<double> > &cities){
   double result = 0;
   for(int i = 0; i < path.size()-1; i++){
