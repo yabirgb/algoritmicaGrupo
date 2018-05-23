@@ -7,6 +7,7 @@
 \usepackage[bookmarks]{hyperref}
 
 \usepackage{multirow}
+\usepackage{subfig}
 
 \usepackage{algorithm}
 \usepackage{algpseudocode}
@@ -109,7 +110,7 @@ Branch and bound es una técnica similar a la de backtracking pero en
 este caso la técnica de ramificación es distinta.
 
 En lugar de desarrollar una rama del arbol hasta llegar a una hoja
-desarrollando por niveles. Por tanto almismo tiempo tenemos varios
+desarrollando por niveles. Por tanto al mismo tiempo tenemos varios
 nodos vivos. No los desarrollamos todos simultaneamente sino que los
 desarrollamos en función de las expectativas que tenemos de cada nodo.
 
@@ -168,9 +169,13 @@ recorrido se refiere. De esta manera conseguimos que nuestro algoritmo
 explore menos nodos (realice más podas) y por lo tanto estamos
 mejorando su eficiencia empírica.
 
-La solución inicial la hemos optenido a partir del algoritmo greedy de
-insercción del elemento más lejano visto en la práctica
-anterior donde estudiábamos este mismo problema.
+La solución inicial que nos ha permitidos podar la hemos basado en el
+algoritmo genético que desarrollamos en la práctica anterior y que de
+manera rápida nos ofrecía una solución bastante buena. De esta manera
+a la hora de realizar poda podíamos descartar más resultados de manera
+eficiente.
+
+Para decidir la ciudad de inicio para el recorrido empleamos la siguiente función:
 
 \begin{lstlisting}
   int farthest(vector<pair<double, double> > &coordinates){
@@ -197,6 +202,11 @@ anterior donde estudiábamos este mismo problema.
     return mejor;
   }
 \end{lstlisting}
+
+Con esto conseguimos que nuestra primera ciudad sea la que está mas
+lejos del centro y en nuestro recorrido nos vamos acercando al
+centro. Esta técnica es una de las que se propuso en ocasiones
+anteriores y que hemos considerado buena idea aplicar.
 
 \subsection{Solución usando backtracking}
 
@@ -248,11 +258,96 @@ un ordenador con las siguiente caracterísiticas:
 \item OS: Linux Mint 18.3 Sylvia x86\_64
 \end{itemize}
 
-% Tabla que tiene los resultados
+Debido a la complejidad del algoritmo no fuimos capaces de obtener
+resultados para mapas muy grandes y en particular para los mapas
+ofrecidos salvo para el caso de \textit{ulysses16}. Es por esto que se
+ha procedido a la creación de mapas propios, los cuales se acompañan a
+este documento y en los que sí hemos podido probar nuestro algoritmo.
 
-% Un par de gráficas comparando
+\begin{table}[H]
+\centering
+\caption{Comparativa de longitud y tiempo (seg) para cada algoritmo}
+\label{my-label}
+\begin{tabular}{lll}
+\hline
+\multicolumn{1}{|l|}{Longitud} & \multicolumn{1}{l|}{Branch and bound} & \multicolumn{1}{l|}{Backtracking} \\ \hline
+\multicolumn{1}{|l|}{19.9247}  & \multicolumn{1}{l|}{3E-06}            & \multicolumn{1}{l|}{2E-06}        \\ \hline
+\multicolumn{1}{|l|}{51.6735}  & \multicolumn{1}{l|}{6E-06}            & \multicolumn{1}{l|}{3E-06}        \\ \hline
+\multicolumn{1}{|l|}{59.4593}  & \multicolumn{1}{l|}{1.7E-05}          & \multicolumn{1}{l|}{5E-06}        \\ \hline
+\multicolumn{1}{|l|}{56.4986}  & \multicolumn{1}{l|}{5E-05}            & \multicolumn{1}{l|}{1.6E-05}      \\ \hline
+\multicolumn{1}{|l|}{119.193}  & \multicolumn{1}{l|}{0.000148}         & \multicolumn{1}{l|}{6.2E-05}      \\ \hline
+\multicolumn{1}{|l|}{150.371}  & \multicolumn{1}{l|}{0.000919}         & \multicolumn{1}{l|}{0.000281}     \\ \hline
+\multicolumn{1}{|l|}{255.254}  & \multicolumn{1}{l|}{0.001052}         & \multicolumn{1}{l|}{0.000763}     \\ \hline
+\multicolumn{1}{|l|}{361.223}  & \multicolumn{1}{l|}{0.003113}         & \multicolumn{1}{l|}{0.003867}     \\ \hline
+\multicolumn{1}{|l|}{464.618}  & \multicolumn{1}{l|}{0.015933}         & \multicolumn{1}{l|}{0.021076}     \\ \hline
+\multicolumn{1}{|l|}{476.531}  & \multicolumn{1}{l|}{0.014079}         & \multicolumn{1}{l|}{0.049719}     \\ \hline
+\multicolumn{1}{|l|}{586.246}  & \multicolumn{1}{l|}{0.193942}         & \multicolumn{1}{l|}{3.49537}      \\ \hline
+\multicolumn{1}{|l|}{755.058}  & \multicolumn{1}{l|}{0.046548}         & \multicolumn{1}{l|}{0.676337}     \\ \hline
+\multicolumn{1}{|l|}{1040.99}  & \multicolumn{1}{l|}{0.234971}         & \multicolumn{1}{l|}{9.97742}      \\ \hline
+\multicolumn{1}{|l|}{1146.6}   & \multicolumn{1}{l|}{0.311181}         & \multicolumn{1}{l|}{29.1998}      \\ \hline
+                               &                                       &                                  
+\end{tabular}
+\end{table}
+
+
+Para visualizar los datos los hemos representado en una gráfica de
+línieas donde comparamos ambos algoritmos:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{comparativa.png}
+  \caption{Comparativa de los algoritmos de backtracking y branch and bound}
+\end{figure}
+
 
 \section{Comparativa con los algoritmos greedy}
+
+Si comparamos por ejemplo con el algoritmo greedy
+\textit{cheapInserction} obtenemos los resultados siguientes:
+
+\begin{table}[H]
+\centering
+\caption{Resultados para un algoritmo greedy}
+\label{my-label}
+\begin{tabular}{|l|l|}
+\hline
+19.9247 & 4E-06 \\ \hline
+51.6735 & 2E-06 \\ \hline
+59.4593 & 1E-06 \\ \hline
+62.8659 & 2E-06 \\ \hline
+123.26  & 2E-06 \\ \hline
+150.371 & 3E-06 \\ \hline
+300.216 & 3E-06 \\ \hline
+361.223 & 3E-06 \\ \hline
+494.908 & 2E-06 \\ \hline
+476.531 & 4E-06 \\ \hline
+794.865 & 4E-06 \\ \hline
+581.918 & 4E-06 \\ \hline
+1005.65 & 5E-06 \\ \hline
+1070.15 & 5E-06 \\ \hline
+1272.67 & 6E-06 \\ \hline
+\end{tabular}
+\end{table}
+
+En esta tabla podemos contrastar de manera clara como en tiempo los
+algoritmos greedy ganan a los de branch and bound pero los recorridos
+que obtienen no son mejores. A continuación se han representado uno de
+los resultados que se obtienen con branch and bound y usando
+algoritmos greedy.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{bb_mapa15}
+  \caption{Algoritmo de branch and bound}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{cheap_mapa15}
+  \caption{Algoritmo greedy}
+\end{figure}
+
+
 
 \section{Conclusiones}
 
