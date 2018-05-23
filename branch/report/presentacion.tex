@@ -8,6 +8,10 @@
 \usepackage{graphicx}% http://ctan.org/pkg/graphicx
 \usepackage{caption,subcaption}
 
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{pifont}
+
 % Code
 
 \usepackage{listings,textcomp}
@@ -65,8 +69,25 @@
 \end{frame}
 
 \begin{frame}[fragile]\frametitle{Solución branch and bound - I}
-
-	
+\begin{algorithm}[H]
+	\caption{Algoritmo Branch and Bound}
+	\begin{algorithmic}
+		\State solution = next PriorityQueue($<$length, path$>$)
+		\If {path is completed}
+		\State localLength = path.length
+		\Else
+		\State minPossible = estimate path
+		\State localLength = solution.length
+		\EndIf
+		\If {localLength $<$ best Solution}
+		\For {city not in path} 
+		\State add city to the path
+		\State compute new min Length
+		\State Explore new solution if it's worth
+		\EndFor
+		\EndIf
+	\end{algorithmic}
+\end{algorithm}
 \end{frame}
 
 \begin{frame}[fragile]\frametitle{Solución branch and bound - II}
